@@ -1,0 +1,11 @@
+\Tutorial	Задача робиться <<в~лоб>>, тобто без усяких придумок $k{-}1$ раз (<<мінус один>>, бо треба отримати \mbox{$k$-те} число з\nolinebreak[3] \mbox{1-го}, а\nolinebreak[3] не\nolinebreak[3] \mbox{0-го}) застосовується дія <<порахувати й додати суму цифр поточного числа>>. 
+
+\phantomsection\label{text:sum-of-digits}
+Стандартний спосіб рахувати суму цифр числа --- у\nolinebreak[3] циклі розглядати останню цифру числа (Pascal:\nolinebreak[2] \mbox{\texttt{n~mod~10}};\linebreak[1] С/С++:\nolinebreak[2] \mbox{\texttt{n\%10}}), а\nolinebreak[3] потім <<відтинати>>\nolinebreak[2] її (Pascal:\nolinebreak[2] \mbox{\texttt{n:=n~div~10}}; С/С++:\nolinebreak[2] \mbox{\texttt{n/=10}}). Ці\nolinebreak[2] операції треба робити з\nolinebreak[3] <<копією>> (а\nolinebreak[3] не\nolinebreak[3] самим поточним числом, щоб воно не\nolinebreak[3] втратилося від <<відтинань>>); це\nolinebreak[1] може бути забезпечено або присвоєнням у додаткову змінну, або передачею у\nolinebreak[3] функцію як значення, а\nolinebreak[3] не\nolinebreak[3] за\nolinebreak[2] посиланням.
+% параметром-значенням (у\nolinebreak[3] Pascal\nolinebreak[3] --- без\nolinebreak[2] модифікатора\nolinebreak[2] \texttt{var}). 
+Приклад реалізації\nolinebreak[3] --- \IdeOne{YWcv5B}.
+
+Іншим способом є перетворення числа у рядкову величину й подальші звернення до окремих символів-цифр. Деталі сильно залежать від конкретної мови програмування, навіть конкретних бібліотек, тому їх важко пояснити теоре\-тично. Дивіться конкретні р\'{о}зв'язки: \IdeOne{5poAvj} (мовою\nolinebreak[2] C++) та \IdeOne{d2FOrb} (мовою\nolinebreak[1] Pascal із функціями \texttt{IntToStr} та\nolinebreak[2] \texttt{StrToInt}\nolinebreak[3] --- найбільш лаконічний з усіх наведених).
+
+Протягом перетворень значення числ\'{а} може перевищити\nolinebreak[2] 32767, тому треба забезпечити, щоб тип мав хоча\nolinebreak[3] б 32\nolinebreak[3] біти (див.\nolinebreak[2] також стор.~\pageref{text:overflow-example} та стор.~\pageref{text:notes-about-delphi-mode}).
+

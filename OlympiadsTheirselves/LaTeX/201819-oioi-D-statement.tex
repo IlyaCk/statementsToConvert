@@ -1,0 +1,240 @@
+{
+
+%%% \makeTableLongtrue
+
+\makeTableLongfalse
+
+\begin{problemAllDefault}{Квантифікація предиката}
+
+Задано прямокутну таблицю, що складається лише з нулів та/\nolinebreak[3]або одиниць.
+До\nolinebreak[3] цієї таблиці треба застосувати одну з таких дій:
+
+\begin{itemize}
+
+\item
+\texttt{AiAj} або \texttt{AjAi} (дія може бути позначена будь-яким з цих двох способів, при цьому смисл цих записів однаковий) --- якщо геть усі комірки таблиці містять одиниці, то результат дії одиниця, в усіх інших випадках результат нуль;
+
+\item
+\texttt{EiEj} або \texttt{EjEi} (дія може бути позначена будь-яким з цих двох способів, при цьому смисл цих записів однаковий) --- якщо хоча~б десь у таблиці є хоча~б одна одиниця, то результат дії одиниця, інакше результат нуль;
+
+\item
+\texttt{EiAj} --- якщо у~таблиці є хоча~б один рядок, що складається з самих лише одиниць, то результат дії одиниця, інакше результат нуль;
+
+\item
+\texttt{EjAi} --- якщо у~таблиці є хоча~б один стовпчик, що складається з самих лише одиниць, то результат дії одиниця, інакше результат нуль;
+
+\item
+\texttt{AiEj} --- якщо у кожному рядку таблиці є хоча~б одна одиниця, то результат дії одиниця, інакше результат нуль;
+
+\item
+\texttt{AjEi} --- якщо у кожному стовпчику таблиці є хоча~б одна одиниця, то результат дії одиниця, інакше результат нуль.
+
+
+\end{itemize}
+
+<<Хоча~б один/одна>> скрізь означає, що можна~1, а~можна й більше.
+
+Напишіть програму, яка застосуватиме вказані дії до таблиці.
+
+\InputFile
+Перший рядок містить два цілі числа~$N$ та $M$ (кожне від~1 до~12)\nolinebreak[3] --- кількість рядків та кількість стовпчиків відповідно. 
+Кожен з подальших $N$ рядків містить по рівно~$M$ нулів та/або одиниць, розділених одинарними пробілами.
+Останній $(N{+}2)$-й рядок містить потрібну дію, тобто один із записів 
+\texttt{AiAj}, або
+\texttt{AjAi}, або
+\texttt{EiEj}, або
+\texttt{EjEi}, або
+\texttt{EiAj}, або
+\texttt{EjAi}, або
+\texttt{AiEj}, або\nolinebreak[3]
+\texttt{AjEi}.
+
+
+\OutputFile
+Виведіть єдину цифру 0~або~1\nolinebreak[3] --- результат дії.
+
+\Examples
+
+\ifAfour\vspace*{-\baselineskip}\par\mbox{}\hspace*{5em}\fi
+\begin{exampleSimpleExtraNarrow}{2.5em}{3em}
+\exmp{2 3
+1 0 1
+1 1 0
+AiAj}{0}%
+\exmp{2 3
+1 0 1
+1 1 0
+AjAi}{0}%
+\end{exampleSimpleExtraNarrow}%
+\ifAfour\hspace{-0.5em}\fi
+\begin{exampleSimpleExtraNarrow}{2.5em}{3em}
+\exmp{2 3
+1 0 1
+1 1 0
+EiEj}{1}%
+\exmp{2 3
+1 0 1
+1 1 0
+EjEi}{1}%
+\end{exampleSimpleExtraNarrow}%
+\ifAfour\hspace{-0.5em}\fi
+\begin{exampleSimpleExtraNarrow}{2.5em}{3em}
+\exmp{2 3
+1 0 1
+1 1 0
+EiAj}{0}%
+\exmp{2 3
+1 0 1
+1 1 0
+EjAi}{1}%
+\end{exampleSimpleExtraNarrow}%
+\ifAfour\hspace{-0.5em}\fi
+\begin{exampleSimpleExtraNarrow}{2.5em}{3em}
+\exmp{2 3
+1 0 1
+1 1 0
+AiEj}{1}%
+\exmp{2 3
+1 0 1
+1 1 0
+AjEi}{1}%
+\end{exampleSimpleExtraNarrow}
+
+% % % \ifAfour\end{small}\fi
+
+
+\Scoring\phantomsection\label{text:scoring-by-blocks-in-quantification-problem-begin}
+Тести 1--8 є тестами з умови; вони перевіряються, але самі по собі не~приносять балів.
+Решта тестів утворюють такі 14 блоків:
+
+{
+
+\begin{small}
+
+\def\tests#1{\mbox{тести #1;\hspace{0.25em plus 2em}}}
+\def\points#1{\mbox{#1 балів;\hspace{0.25em plus 2em}}}
+\def\whenChecked#1{перевіряється й оцінюється #1}
+\def\checkedAlways{\whenChecked{завжди}}
+\def\checkReq#1{\whenChecked{лише в разі успішного проходження тестів #1}}
+
+\noindent
+\ifAfour
+\begin{tabular}{@{}p{0.04\textwidth}|p{0.31\textwidth}|p{0.59\textwidth}@{}}
+\else
+\begin{tabular}{@{}p{0.045\textwidth}|p{0.325\textwidth}|p{0.57\textwidth}@{}}
+\fi
+дія
+&
+$M=N=2$
+&
+$1\<N\<12$, ~ ~ $1\<M\<12$
+\\\hline%\endhead
+\ifAfour\begin{scriptsize}\fi
+\texttt{AiAj} або \texttt{AjAi}
+\ifAfour\par\vspace*{-\baselineskip}\end{scriptsize}\fi
+&
+\points{5}
+\tests{9--40}
+\checkedAlways
+&
+\points{20}
+\tests{145--148}
+\checkReq{9--40}
+\\
+\hline
+\ifAfour\begin{scriptsize}\fi
+\texttt{EiEj} або \texttt{EjEi} 
+\ifAfour\par\vspace*{-\baselineskip}\end{scriptsize}\fi
+&
+\points{5}
+\tests{41--72}
+\checkedAlways
+&
+\points{20}
+\tests{149--152}
+\checkReq{41--72}
+\\
+\hline
+\texttt{EiAj}
+&
+\points{5}
+\tests{73--88}
+\checkedAlways
+&
+\points{20}
+\tests{153--168}
+\checkReq{73--88}
+\\
+\hline
+\texttt{EjAi}
+&
+\points{5}
+\tests{89--104}
+\checkedAlways
+&
+\points{20}
+\tests{169--184}
+\checkReq{89--104}
+\\
+\hline
+\texttt{AiEj}
+&
+\points{5}
+\tests{105--120}
+\checkedAlways
+&
+\points{20}
+\tests{185--200}
+\checkReq{105--120}
+\\
+\hline
+\texttt{AjEi}
+&
+\points{5}
+\tests{121--136}
+\checkedAlways
+&
+\points{20}
+\tests{201--216}
+\checkReq{121--136}
+\\
+\hline
+будь-яка
+&
+\begin{footnotesize}%
+\points{20}
+\tests{137--144}
+\checkReq{9--136}
+\par\vspace*{-\baselineskip}\end{footnotesize}%
+&
+\points{80}
+\tests{217--232}
+\checkReq{1--216}
+\\
+\end{tabular}
+% \end{longtable}
+
+\end{small}
+
+Скрізь мається на увазі, що для нарахування балів за блок Ваша програма повинна успішно пройти \emph{всі} тести цього блоку.\phantomsection\label{text:scoring-by-blocks-in-quantification-problem-end}
+
+}
+
+% % % У тестах 9--40 розмір таблиці гарантовано $2{\times}2$, дія гарантовано \texttt{AiAj} або \texttt{AjAi}; якщо \emph{всі} тести групи пройдені правильно, то нараховується 5~балів.
+
+% % % У тестах 41--72 розмір таблиці гарантовано $2{\times}2$, дія гарантовано \texttt{EiEj} або \texttt{EjEi}; якщо \emph{всі} тести групи пройдені правильно, то нараховується 5~балів.
+
+% % % У тестах 73--88 розмір таблиці гарантовано $2{\times}2$, дія гарантовано \texttt{EiAj}; якщо \emph{всі} тести групи пройдені правильно, то нараховується 5~балів.
+
+% % % У тестах 89--104 розмір таблиці гарантовано $2{\times}2$, дія гарантовано \texttt{EjAi}; якщо \emph{всі} тести групи пройдені правильно, то нараховується 5~балів.
+
+% % % У тестах 105--120 розмір таблиці гарантовано $2{\times}2$, дія гарантовано \texttt{AiEj}; якщо \emph{всі} тести групи пройдені правильно, то нараховується 5~балів.
+
+% % % У тестах 121--136 розмір таблиці гарантовано $2{\times}2$, дія гарантовано \texttt{AjEi}; якщо \emph{всі} тести групи пройдені правильно, то нараховується 5~балів.
+
+% % % У тестах 137--168 розмір таблиці гарантовано $2{\times}2$, дія може бути довільна; якщо \emph{всі} тести групи пройдені правильно, то нараховується 10~балів; цей блок тестів перевіряється й оцінюється \emph{лише} за умови, що пройдені абсолютно всі попередні тести 1--136.
+
+
+\end{problemAllDefault}
+
+}

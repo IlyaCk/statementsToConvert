@@ -1,0 +1,33 @@
+\begin{problem}{Way via mountains (small limits)}{stdin}{stdout}{2 seconds}{64 megabytes}
+
+The highlands' surface can be presented as a polygonal chain with vertices at the points $(x_1,y_1)$, $(x_2,y_2)$,~\dots, $(x_N,y_N)$, moreover $x_i<x_{i+1}$.
+Ordinary mountain's magus staying at $(x_1,y_1)$ wants to move to the point $(x_N,y_N)$. He~can move only afoot. He can walk on the surface of the Earth (along the polygonal chain). However, he also can create a bridge in the air and walk through it. The bridge can connect two vertices of the polygonal chain: the bridge should start and finish in some vertices of the polygonal chain and the bridge can't go underground (so it shouldn't form a tunnel in the mountain), but some points or segments of the bridge can touch the surface of the earth.
+The bridge can't be longer than~$R$. Magus can't build more than $K$ bridges. After passing a bridge, it disappears in the air. What the minimum distance magus should pass to move to the point $(x_N,y_N)$?
+
+\InputFile
+The program should read firstly positive integer $N$ ($2\leq N\leq 42$);
+then a positive integer $K$ ($1\leq K\leq 23$) ---
+the maximum number of bridges;
+then an integer $R$ ($0\leq R\leq 10000$) --- maximum
+possible length of the bridge. Next, the coordinates $(x_1,y_1)$, $(x_2,y_2)$,~\dots, $(x_N,y_N)$.
+All coordinates are integers and aren't exceeding $10000$ by absolute value.
+$x_i<x_{i+1}$ is true for all~$i$ from $1$ to~$N$--1.
+
+\OutputFile
+The program should print a single number --- the minimum length of path magus have to pass (both on the ground and through the bridges).
+Print answer to within 6 digits after the decimal point.
+
+\Examples
+
+\begin{example}
+\exmp{5 2 5
+0 0
+2 2
+3 -1
+4 1
+5 0
+}{6.4787086646190746
+}%
+\end{example}
+
+\end{problem}

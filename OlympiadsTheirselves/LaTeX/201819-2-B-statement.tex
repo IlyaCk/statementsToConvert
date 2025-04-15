@@ -1,0 +1,119 @@
+\begin{problem}{Відтинання квадратів}{\stdinOrInputTxt}{\stdoutOrOutputTxt}{0,5 сек}{64 мегабайти}
+
+Від заданого прямокутника розміром $A\times{}B$ (натуральні ч\'{и}сла) щоразу відрізається квадрат найбільшого розміру. Знайти число таких квадратів.
+
+\InputFile
+Два рядки, кожен з яких містить єдине натуральне число: 
+у~першому рядку\nolinebreak[3] $A$, тобто розмір по\nolinebreak[3] висоті; 
+у~др\'{у}гому рядку\nolinebreak[3] $B$, тобто розмір по\nolinebreak[3] ширині.
+Обмеження на значення $A$, $B$ див. далі.
+
+\OutputFile
+Єдине число\nolinebreak[3] --- кількість квадратів.
+
+\setlength{\mytemplen}{\parindent}
+
+{
+
+\def\exmpI{\protect\exmp{12\\
+8}{3}}
+\def\exmpII{\protect\exmp{2018\\
+2018}{1}}
+\def\exmpIII{\protect\exmp{17\\
+42}{12}}
+
+\def\squaresCutsNotePhrase{У~першому тесті маємо ситуацію з рисунку: 
+спочатку відрізають квадрат ${8{\times}8}$ і лишається ${4{\times}8}$,
+потім відрізають квадрат ${4{\times}4}$ і лишається ${4{\times}4}$, що і є останнім третім квадратом.
+\ifAfour\else\par\fi
+У~др\'{у}гому тесті відразу маємо квадрат, відрізати взагалі не доводиться, але один квадрат (початковий) все-таки~є.}
+\def\squaresCutsPicture{\begin{mfpic}[4]{0}{8}{0}{12}
+\xyswap
+\lines{(1,0),(1,8)}
+\lines{(2,0),(2,8)}
+\lines{(3,0),(3,8)}
+\lines{(4,0),(4,8)}
+\lines{(5,0),(5,8)}
+\lines{(6,0),(6,8)}
+\lines{(7,0),(7,8)}
+\lines{(9,0),(9,8)}
+\lines{(10,0),(10,8)}
+\lines{(11,0),(11,8)}
+%
+\lines{(0,1),(12,1)}
+\lines{(0,2),(12,2)}
+\lines{(0,3),(12,3)}
+\lines{(0,4),(12,4)}
+\lines{(0,5),(12,5)}
+\lines{(0,6),(12,6)}
+\lines{(0,7),(12,7)}
+%
+\pen{2pt}
+\lines{(0,0),(0,8)}
+\lines{(8,0),(8,8)}
+\lines{(12,0),(12,8)}
+\lines{(8,4),(12,4)}
+\lines{(0,0),(12,0)}
+\lines{(0,8),(12,8)}
+\end{mfpic}}
+
+\ifAfour
+\Examples
+\begin{exampleSimpleExtraNarrow}{2.5em}{3em}
+\exmpI%
+\end{exampleSimpleExtraNarrow}
+\begin{exampleSimpleExtraNarrow}{2.5em}{3em}
+\exmpII%
+\end{exampleSimpleExtraNarrow}
+\begin{exampleSimpleExtraNarrow}{2.5em}{3em}
+\exmpIII%
+\end{exampleSimpleExtraNarrow}
+\par
+\mytextandpicture{\Notes\squaresCutsNotePhrase}{\squaresCutsPicture}\par\vspace{-0.25\baselineskip}
+% % % \myflfigaw{\squaresCutsPicture}
+% % % \Notes
+% % % \squaresCutsNotePhrase
+\else
+\noindent
+\begin{minipage}{11em}
+\hspace*{\mytemplen}\Examples\par
+\begin{exampleSimple}{5em}{5em}
+\exmpI%
+\exmpII%
+\exmpIII%
+\end{exampleSimple}
+\end{minipage}
+\begin{minipage}{21em}
+\squaresCutsNotePhrase
+\end{minipage}
+\squaresCutsPicture
+\fi
+
+% % % 17 42
+% % % 17 25
+% % % 17 8
+% % % 9 8
+% % % 1 8
+% % % 1 7
+% % % 1 6
+% % % 1 5
+% % % 1 4
+% % % 1 3
+% % % 1 2
+% % % 1 1
+
+}
+
+\Scoring
+В цій задачі тести перевіряються й оцінюються незалежно.
+Половина балів припадає на тести, в яких обидва розміри від~1 до~100.
+Інша половина\nolinebreak[3] --- на тести, в яких більший-або-рівний із розмірів від\nolinebreak[3] 1000 до\nolinebreak[3] $10^9$ (мільярда), а\nolinebreak[3] менший-або-рівний від 1 до більшого-або-рівного.
+
+Здавати треба одну програму, а не дві; Вас просто інформують, у скількох тестах які обмеження на розміри.
+
+\ifStatementOnly
+\vfill\par
+Всі задачі цього змагання, включно з цією задачею, заборонено повторно здавати в ejudge після того, як вже здано повнобальний розв'язок.
+\fi
+
+\end{problem}

@@ -1,0 +1,64 @@
+\begin{problem}{Відстань між мінімумом та максимумом--1}{\stdinOrInputTxt}{\stdoutOrOutputTxt}{2 сек}{64 мегабайти}
+
+Напишіть програму, яка за заданим масивом цілих чисел знайде місце мінімального її елемента, максимального її елемента, та відстань (кількість проміжних елементів) між ними. У~випадку, якщо масив містить однакові мінімальні та\slash{}або однакові максимальні елементи на різних позиціях, слід вибрати перший з мінімумів та останній з максимумів.
+
+\InputFile
+Перший рядок містить єдине число~$N$ ($2\dib{{\<}}N\dib{{\<}}100$)\nolinebreak[3] --- кількість елементів масиву. Др\'{у}гий рядок містить (розділені пробілами) ч\'{и}сла--елементи масиву; значення цих чисел--елементів цілі, від~1 до~100.
+
+\OutputFile
+Виведіть єдине ціле число\nolinebreak[3] --- відстань (кількість проміжних елементів) між першим з мінімальних і останнім з максимальних елементів.
+
+{
+
+\Examples
+
+\vspace{-1.125\baselineskip}
+
+\makeTableLongtrue
+\noindent\begin{exampleThreeWithSpecNameColTwoAndLineStretch}{7.5em}{5em}{\ifAfour 11cm\else 10cm\fi}{Результати}{Примітки}{\ifAfour -2pt\else -5pt\fi}{-2pt}{0.625}
+\exmp{8
+3 9 7 5 2 8 6 4}{2}{\noindent\ifAfour\begin{minipage}[t]{11cm}\else\begin{minipage}[t]{10cm}\fi
+\setstretch{0.875}
+Між елементами 2 та 9 два проміжні елементи 5 та~7
+\end{minipage}}%
+\exmp{8
+4 3 2 1 8 7 6 5}{0}{\noindent\ifAfour\begin{minipage}[t]{11cm}\else\begin{minipage}[t]{10cm}\fi
+\setstretch{0.875}
+Між елементами 1 та 8 нема проміжних елементів
+\end{minipage}}%
+\exmp{8
+3 1 4 1 5 9 2 6}{3}{\noindent\ifAfour\begin{minipage}[t]{11cm}\else\begin{minipage}[t]{10cm}\fi
+\setstretch{0.875}
+Між першим з елементів~1 та єдиним (і~тому останнім) елементом~9 три проміжні елементи 4,~1,~5
+\end{minipage}}%
+\exmp{8
+1 1 1 1 1 1 1 1}{6}{\noindent\ifAfour\begin{minipage}[t]{11cm}\else\begin{minipage}[t]{10cm}\fi
+\setstretch{0.875}
+Оскільки всі елементи однакові, кожен з них мінімальний і максимальний; отже, першим мінімальним є перший з усіх елементів масиву, останнім максимальним\nolinebreak[3] --- останній з усіх
+\end{minipage}}%
+\end{exampleThreeWithSpecNameColTwoAndLineStretch}
+
+\vspace{-0.75\baselineskip}
+
+% % % \noindent\hspace*{-1em}\begin{exampleSimpleThree}{7.5em}{5em}{10cm}{Примітки}
+% % % \exmp{8
+% % % 3 9 7 5 2 8 6 4}{2}{\noindent\begin{minipage}[t]{10cm}
+% % % Між елементами 2 та 9 два проміжні елементи 5 та~7
+% % % \end{minipage}}%
+% % % \exmp{8
+% % % 4 3 2 1 8 7 6 5}{0}{\noindent\begin{minipage}[t]{10cm}
+% % % Між елементами 1 та 8 нема проміжних елементів
+% % % \end{minipage}}%
+% % % \exmp{8
+% % % 3 1 4 1 5 9 2 6}{3}{\noindent\begin{minipage}[t]{10cm}
+% % % Між першим з елементів~1 та єдиним (і~тому останнім) елементом~9 три проміжні елементи 4,~1,~5
+% % % \end{minipage}}%
+% % % \exmp{8
+% % % 1 1 1 1 1 1 1 1}{6}{\noindent\begin{minipage}[t]{10cm}
+% % % Оскільки всі елементи однакові, кожен з них мінімальний і максимальний; отже, першим мінімальним є перший з усіх елементів масиву, останнім максимальним\nolinebreak[3] --- останній з усіх
+% % % \end{minipage}}%
+% % % \end{exampleSimpleThree}
+
+}
+
+\end{problem}

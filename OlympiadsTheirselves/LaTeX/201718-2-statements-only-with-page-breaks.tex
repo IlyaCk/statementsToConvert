@@ -1,0 +1,169 @@
+\documentclass[14pt,a4paper]{extarticle}
+
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian,ukrainian]{babel}
+\usepackage[metapost,truebbox,mplabels]{mfpic}
+\usepackage{enumitem}
+\usepackage{epigraph}
+\usepackage{floatflt}
+\usepackage{multicol}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{textcomp}
+\usepackage{amstext}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{verbatim}
+\usepackage{alltt}
+\usepackage{ccaption}
+\usepackage{setspace}
+
+% \twocolumn
+
+% \usepackage[landscape,russian]{olymppp}
+
+\usepackage[ukrainian]{olymppp}
+
+\usepackage{anysize}
+\usepackage{listcorr}
+
+\def\aftercaptionmark{.}
+\captiondelim{. }
+\def\dib#1{\,#1\discretionary{}{\mbox{$#1$}}{}\,}
+
+\marginsize{20mm}{20mm}{7mm}{20mm}
+
+
+% \renewcommand{\baselinestretch}{1.28125}
+% \renewcommand{\baselinestretch}{1.3125}
+
+\setlength{\parindent}{12.5mm}
+\setlength{\parskip}{1pt plus 9pt minus 0.5 pt}
+
+
+\newif{\ifallIdeOneLinksCopiedHere}
+\allIdeOneLinksCopiedHerefalse
+
+\newif{\ifglobalsf}
+\globalsftrue
+
+\ifglobalsf
+\def\mainFontFamily{sffamily}
+\else
+\def\mainFontFamily{rmfamily}
+\fi
+
+\PrintEjudgeConstraintstrue
+
+
+\opengraphsfile{pics}
+
+\begin{document}
+
+\hyphenation{пря-мо-кут-ник пря-мо-кут-ника пря-мо-кут-нику пря-мо-кут-ни-ків}
+
+
+\def\<{\leqslant}
+\def\>{\geqslant}
+\def\*{\times}
+\def\dib#1{\,#1\discretionary{}{\mbox{$#1$}}{}\,}
+\def\op{\mathop{\rm op}\nolimits}
+\def\bdiv{\mathop{\rm div}\nolimits}
+\def\opt{\mathop{\rm opt}}
+\def\isdiv{\mathbin{\hbox to 0.25em{\hfill\hbox to 0 pt{\raisebox{0pt}{\hss$\cdot$\hss}}\hbox to 0 pt{\raisebox{-.6ex}{\hss$\cdot$\hss}}\hbox to 0 pt{\raisebox{.6ex}{\hss$\cdot$\hss}}\hspace{0.15em}\hfill}\,}}
+
+\newlength{\myparindent}
+
+
+\newlength{\mytemplen}
+\newlength{\mytemplensecond}
+\newlength{\mytemplenthird}
+\newsavebox{\mypictbox}
+\def\myrightfigure#1#2{%
+\savebox{\mypictbox}{\noindent{}#2}%
+\settowidth{\mytemplen}{\usebox{\mypictbox}}%
+\settoheight{\mytemplenthird}{\usebox{\mypictbox}}%
+\ifdim\mytemplen<0.8\textwidth%
+\noindent%
+\setlength{\mytemplensecond}{\textwidth}%
+\addtolength{\mytemplensecond}{-\mytemplen}%
+\addtolength{\mytemplen}{3pt}% ??? better to find alike standard len
+\hspace*{\mytemplensecond}\usebox{\mypictbox}%
+\par\vspace*{-0.5\baselineskip}\par%
+\vspace*{-\mytemplenthird}
+\vspace{-\parskip}
+\hangindent=-\mytemplen
+\hangafter=-#1
+\else
+\begin{center}
+\usebox{\mypictbox}%
+\par
+\end{center}
+% \vspace{-\baselineskip}
+\fi%
+}
+
+\def\mytextandpicture#1#2{%
+\setlength{\myparindent}{\parindent}%
+\savebox{\mypictbox}{\noindent{}#2}%
+\settowidth{\mytemplensecond}{\usebox{\mypictbox}}%
+\setlength{\mytemplen}{\textwidth}%
+\addtolength{\mytemplen}{-\mytemplensecond}%
+\addtolength{\mytemplen}{-3mm}%
+\noindent\mbox{}\hfill\parbox{\mytemplen}{\hspace*{\myparindent}#1}\hfill\hspace{2.5mm}\hfill\parbox{\mytemplensecond}{\usebox{\mypictbox}}\hfill\mbox{}\\
+}
+
+\def\myflfigaw#1{%
+\savebox{\mypictbox}{\noindent{}#1}%
+\settowidth{\mytemplen}{\noindent\usebox{\mypictbox}}%
+% \addtolength{\mytemplen}{1mm}%
+\ifdim\mytemplen<0.75\textwidth%
+\begin{floatingfigure}[r]{\mytemplen}%
+\noindent\mbox{\noindent%
+\usebox{\mypictbox}%
+\vspace{-6pt}}
+\end{floatingfigure}%
+\else
+\begin{figure*}[h]%
+\usebox{\mypictbox}%
+\end{figure*}%
+\fi%
+}
+
+\def\myhrulefill{\vspace{\baselineskip}\par\vspace*{-1.75\baselineskip}\par\noindent\hrulefill\par\vspace{-0.5\baselineskip}}
+
+
+\newcommand{\stdinOrInputTxt}{Або клавіатура, або input.txt}
+\newcommand{\stdoutOrOutputTxt}{Або екран, або output.txt}
+
+
+\contest{ІІ (районний/міський) етап олімпіади 2017/18 навч. року}{Черкаська обл.}{16.12.2017}
+
+\newenvironment{problemAllDefault}[1]{\vspace{10mm}\par\begin{problem}{#1}{\stdinOrInputTxt}{\stdoutOrOutputTxt}{1 сек}{64 мегабайти}}{\end{problem}}
+
+
+\begin{\mainFontFamily}
+
+\renewenvironment{problemAllDefault}[1]{\begin{problem}{#1}{\stdinOrInputTxt}{\stdoutOrOutputTxt}{1 сек}{64 мегабайти}}{\end{problem}}
+
+\input 201718-2-A-statement	
+
+\clearpage
+
+\input 201718-2-B-statement	
+
+\clearpage
+
+\input 201718-2-C-statement	
+
+\clearpage
+
+\input 201718-2-D-statement	
+
+\end{\mainFontFamily}
+
+\end{document}

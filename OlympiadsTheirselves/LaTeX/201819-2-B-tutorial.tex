@@ -1,0 +1,54 @@
+{
+
+\def\tabbb{\hspace*{1em}}
+
+\myflfigaw{\ifAfour\begin{minipage}{10.5em}\else\begin{minipage}{9.5em}\fi\begin{small}\renewcommand{\baselinestretch}{0.875}\begin{alltt}res:=1;\\
+while a<>b do begin\\
+\tabbb{}if a>b then a:=a-b\\
+\tabbb\tabbb\tabbb\tabbb{} else b:=b-a;\\
+\tabbb{}res:=res+1\\
+end\end{alltt}\end{small}\end{minipage}}
+
+% % % \myflfigaw{\begin{minipage}{6em}\begin{small}\renewcommand{\baselinestretch}{0.875}\begin{alltt}res:=1;\\
+% % % while a<>b do\\
+% % % begin\\
+% % % \tabbb{}if a>b then\\
+% % % \tabbb\tabbb{}a:=a-b\\
+% % % \tabbb{}else\\
+% % % \tabbb\tabbb{}b:=b-a;\\
+% % % \tabbb{}res:=res+1\\
+% % % end\end{alltt}\end{small}\end{minipage}}
+
+\vspace*{-\baselineskip}
+
+\vspace*{\baselineskip}
+
+\Tutorial % \MyParagraph{Розв'язок на 75\%.}
+Для отримання 75\% балів досить реалізувати відтинання квадратів один за одним <<в~лоб>>, наприклад, так, як праворуч: ініціалізуємо змінну, де накопичуватиметься результат, одиницею, бо колись буде останній квадрат, який вже не~розрізатиметься, але рахуватиметься; поки прямокутник не~став квадратом, відрізаємо квадрат (шляхом зменшення більшої зі змінних на значення меншої) і додаємо одиничку до кількості квадратів.
+
+Само собою, в наведеному коді мається на увазі, що всі змінні цілочисельні \mbox{32-бі}\-тові (або \mbox{64-бі}\-тові), див.\nolinebreak[2] також стор.~\pageref{text:overflow-example}.
+
+Але при деяких вхідних даних це надто довго працює. Скажімо, при ${A\,{=}\,1}$, $B\dib{{=}}10^9$ буде аж мільярд ітерацій. А~при,\nolinebreak[2] наприклад, $A\dib{{=}}999\,999\,998$, ${B\,{=}\,5}$ ітерацій трохи менше, але теж дуже багато, і при цьому після дуже багатьох відтинань по\nolinebreak[3] $5{\times}5$ будуть ще кілька відтинань менших квадратів.
+
+Легко бачити, що настільки велика кількість відтинань виникає, коли одне зі значень $A$,~$B$ дуже велике, а\nolinebreak[3] інше досить мал\'{е}. Тоді кількість усіх квадратів однакового розміру (що\nolinebreak[3] відтинаються підряд) може бути обчислена % простим 
+цілочисельним діленням (\texttt{a~div~b} при\nolinebreak[2] ${a\,{\>}\,b}$, або \texttt{b~div~a} при\nolinebreak[2] ${a\,{<}\,b}$); від сторони, що до всіх цих віднімань була більшою, залишиться \texttt{a~mod~b} (якщо було\nolinebreak[2] ${a\,{\>}\,b}$) або \texttt{b~mod~a} (якщо було\nolinebreak[2] ${a\,{<}\,b}$). (``\texttt{div}'' та ``\texttt{mod}''\nolinebreak[3] --- позначення Pascal; \texttt{div} у Python3 позначається~``\verb"//"'', більшістю решти мов\nolinebreak[3] --- ``\verb"/"'' за умови цілочисельності аргументів; \texttt{mod} більшістю мов позначається~``\verb"%"''.)
+
+\myflfigaw{\ifAfour\hspace*{-2pt}\begin{minipage}{11.5em}\else\begin{minipage}{11em}\fi\begin{small}\renewcommand{\baselinestretch}{0.875}\begin{alltt}res:=0;\\
+while (a>0)and(b>0) do\\
+\tabbb{}if a>=b then begin\\
+\tabbb\tabbb{}res:=res + a div b;\\
+\tabbb\tabbb{}a:=a mod b\\
+\tabbb{}end else begin\\
+\tabbb\tabbb{}res:=res + b div a;\\
+\tabbb\tabbb{}b:=b mod a\\
+\tabbb{}end\end{alltt}\end{small}\end{minipage}}
+
+Так що попередній код слід модифікувати, замінивши віднімання на~\texttt{mod}, а\nolinebreak[3] додавання одинички\nolinebreak[3] --- на\nolinebreak[3] додавання результату~\texttt{div}. Через~це, доводиться також змінити умову продовження циклу з <<ще~не~квадрат>> на <<ще~лишилось % хоч 
+щось ненульове>>, а ініціалізацію з \texttt{res:=1} на \texttt{res:=0}, бо останній квадрат тепер теж враховується при обчисленні~\texttt{div}.
+
+Насамкінець, усі ці відрізання квадратів відбуваються так само, як працює алгоритм Евкліда. Так\nolinebreak[3] що, якщо знати цей алгоритм (особливо, якщо % знати 
+обидві його версії\nolinebreak[3] --- <<класичну>> та <<сучасну>>), % стає 
+легше і\nolinebreak[2] здогадатися про заміну віднімання на\nolinebreak[2] \texttt{mod}, і\nolinebreak[2] згадати% відомий факт
+, що кількість ітерацій не~перевищує $2\dib{{+}}\log_{\varphi}{\min(A,B)}$, де $\varphi\dib{{=}}\frac{\sqrt{5}+1}{2}\dib{{\approx}}1{,}618$ є основою золотого перерізу (отже, при % початкових 
+$A$,~$B$\nolinebreak[2] до~$10^9$, кількість ітерацій менша~50). 
+% Доведення такої оцінки кількості кроків пропонуємо знайти в літературі. 

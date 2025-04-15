@@ -1,0 +1,26 @@
+\begin{problem}{Solitaire}{stdin}{stdout}{1 second}{128 megabytes}
+
+<<N-T solitaire>> is a card game for one player. There are $4N$ 
+($3\leq N\leq 15)$ cards in the game and each card corresponds to a unique pair of it's value (an~integer in the range~$1.\,.N$) and suit ($\spadesuit$, $\clubsuit$, $\heartsuit$ or~$\diamondsuit$). In the initial position all cards are laid out in $T$ ($4\leq T\leq 12)$ piles; moreover, each of $(4N)\%T$ first piles has $(4N/T)+1$ cards, others have $4N/T$ cards each (here ``/'' and ``\%''~--- integer division and remainder of division, respectively). If the sum of the values of upper cards of two piles is $N+1$, then these two cards can be moved to discard pile (irrespective of their suits). This is the only way to move the cards.
+
+Write a program that will determine the maximum number of cards that one can move to the discard pile.
+
+\InputFile
+The first line contains two integers $N$ and~$T$, then there are $T$~lines with descriptions of the corresponding piles. Each card is described as its value (an integer) and a suit (the char with ASCII-code 03($\heartsuit$), 04($\diamondsuit$), 05($\spadesuit$), or~06($\clubsuit$)) without space between. Descriptions of the cards inside the same pile are single-space separated. Description's direction from left to right corresponds to the order of cards from bottom to up.
+
+\OutputFile
+Your program should print a single integer --- the maximum number of cards that can be moved to the discard pile.
+
+\Examples
+
+\begin{example}
+\exmp{3 5
+2$\spadesuit$ 2$\clubsuit$ 2$\heartsuit$
+2$\diamondsuit$ 3$\diamondsuit$ 1$\heartsuit$
+3$\clubsuit$ 1$\spadesuit$
+1$\clubsuit$ 3$\heartsuit$
+1$\diamondsuit$ 3$\spadesuit$
+}{10}%
+\end{example}
+
+\end{problem}

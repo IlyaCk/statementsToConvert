@@ -1,0 +1,307 @@
+\Tutorial % \MyParagraph{Розв'язок на 75\%.}
+Хоч ця та наступна задачі схожі з задачею <<Палички>> зі\nolinebreak[2] стор.~\mbox{\pageref{text:sticks-simple-begin}--\pageref{text:sticks-simple-end}}, вони \emph{значно складніші}. Там аналіз виграшності зводився до дуже простої ознаки <<чи~кількість паличок кратна~4?>>. А~тут простої ознаки не~виходить, і\nolinebreak[2] треба думати, спочатку\nolinebreak[3] --- як пристосувати до цієї задачі загальні правила перевірки виграшності, потім\nolinebreak[3] --- як це суттєво оптимізувати.
+
+Нагадаємо, що позиція виграшна, коли той, кому вона дісталася, або самим цим фактом вже виграв, або має хоча~б один хід у~програшну. 
+Іншими словами: 
+% Інакше кажучи,
+якщо гравець знає, який це хід (або які це ходи), і використає с\'{а}ме його (або один з них), то супернику дістанеться програшна позиція. Аналогічно, позиція програшна, коли той, кому вона дісталася, або самим цим фактом вже програв, або абсолютно всі його ходи ведуть у виграшні позиції. 
+Іншими словами: 
+% Інакше кажучи,
+хоч би як добре гравець не~вмів грати, він не~має ніяких інших ходів, крім як походити в таку позицію, що починаючи з неї суперник може виграти. 
+
+% % % Якщо гравець отримав виграшну позицію, але не~вміє грати й не~розуміє, 
+% % % які ходи з неї ведуть до програшних позицій і які до виграшних, 
+% % % такий гравець може втратити свою потенційну можливість виграти. 
+% % % С\'{а}ме таке <<перехоплення ініціативи>> у~гравця, 
+% % % що\nolinebreak[2] с\'{а}ме не~вміє грати, 
+% % % і пропонується робити у значній частині тестів.
+
+Кожна позиція або виграшна, або програшна; не~може бути ні третього варіанту, ні поєднання обох цих варіантів для однієї позиції. (Охочі можуть знайти в літературі чи Інтернеті доведення цього твердження. Воно правильне не\nolinebreak[3] для\nolinebreak[3] абсолютно всіх ігор, але достатньо (одночасного) виконання таких умов: гравців двоє; гравці мають повну інформацію про правила гри; гравці мають повну інформацію про поточну позицію гри; гравці вибирають ходи з зарані відомих можливостей, і ці можливості не~залежать ні від чого, крім поточної позиції; гра завершується перемогою одного з гравців і поразкою іншого, нема ні нічиїх, ні числового вираження, <<наскільки програв>>; кількість позицій гри скінч\'{е}нна; гра не~може зациклюватися, багатократно проходячи через ті\nolinebreak[3] с\'{а}мі позиції.)
+
+З усього цього випливає, що позицією цієї гри не~можна вважати % сам\'{у} лише 
+кількість паличок. Хоча~б том\'{у}, що в перших двох прикладах наступної задачі показано неможливість виграти, ходячи першим при ${N\,{=}\,3}$, а~в~останньому прикладі наступної задачі суперник забирає всі три палички одним ходом і вигра\'{є}. 
+Це\nolinebreak[3] суперечить умові <<гравці вибирають ходи з зарані відомих можливостей, і ці можливості не~залежать \emph{ні від чого, крім поточної позиції}>>. 
+
+\emph{Позицією цієї гри можна і варто вважати пару <<кількість паличок, що лишилися у купці; кількість паличок, забраних на наразі останньому ході>>.} Причому, хоча на початку гри <<наразі останнього ходу>> не~було, дозволені ходи (забирати або одну, або дві палички) такі с\'{а}мі, які були~б, якби щойно забрали одну паличку й лишилося~$N$. Тож початковою є позиція\nolinebreak[3] $(N; 1)$; якщо 
+% перший
+\mbox{1-й}
+гравець забирає одну паличку, то 
+% др\'{у}гому гравцеві 
+\mbox{2-му}
+дістається позиція\nolinebreak[2] $(N{-}1; 1)$, а якщо дві, то позиція\nolinebreak[3] $(N{-}2; 2)$. І~так далі.
+
+\ifAfour
+\begin{figure}[!b]
+\vspace*{-1.25\baselineskip}
+\noindent\hrulefill
+\vspace{-0.75\baselineskip}
+\par\noindent\hrulefill
+\vspace{-0.75\baselineskip}
+\par\noindent\hrulefill
+\vspace{-0.25\baselineskip}
+\else
+\begin{figure}[p]
+\fi
+
+\def\phraseI{Зобразимо всі позиції для початкових кількостей паличок 5 (верхня діаграма) та 12 (нижня).}
+\def\phraseII{Позначимо позиції круж\'{е}чками й розмістимо так, щоб 
+стовпчики від\-по\-ві\-да\-ли 
+кількості паличок, що лишилися, 
+рядк\'{и}\nolinebreak[3] --- кількості паличок, забраних 
+на останньому ході.
+% останнім ходом.
+}
+\def\phraseIII{Літери у кру\-ж\'{е}ч\-ках позначають, виграшна (\textbf{W}in) позиція чи програшна (\textbf{L}ose).}
+\def\phraseIV{\mbox{Жирні} стр\'{і}лки позначають переходи, які ведуть до програшних позицій і тим забезпечують виграшність; 
+пунк\-тирні\nolinebreak[3] --- інші переходи.}
+\def\phraseV{Верхня діаграма є частиною (лівою нижньою) нижньої; 
+це\nolinebreak[2] природньо, бо раз подальші ходи з позиції 
+не~залежать 
+від того, як потрапили в цю позицію,
+то не~залежить і виграшність\nolinebreak\hspace{0pt plus 1pt}/\nolinebreak[2]\hspace{0pt plus 1pt}про\-граш\-ність.}
+
+\ifglobalsf
+\begin{sffamily}
+\fi
+
+\ifAfour
+\ifBigStretch
+\errorNotCalculatedYet
+\begin{Huge}верстка!!!\end{Huge}
+\input sticks-with-spec-moves-mfpicture-5
+\input sticks-with-spec-moves-mfpicture-12
+\phraseI
+\phraseII
+\phraseIII
+\phraseIV
+\phraseV
+\else
+\parshape=15
+0.075\textwidth 0.395\textwidth
+0.00\textwidth 0.47\textwidth
+0.00\textwidth 0.47\textwidth
+0.00\textwidth 0.47\textwidth
+0.12\textwidth 0.35\textwidth
+0.22\textwidth 0.25\textwidth
+0.28\textwidth 0.19\textwidth
+0.35\textwidth 0.65\textwidth
+0.40\textwidth 0.60\textwidth
+0.45\textwidth 0.55\textwidth
+0.50\textwidth 0.50\textwidth
+0.55\textwidth 0.45\textwidth
+0.60\textwidth 0.40\textwidth
+0.65\textwidth 0.35\textwidth
+0.72\textwidth 0.28\textwidth
+\phraseI{}
+\phraseII{}
+\phraseIII{}
+\phraseIV{}
+\phraseV{}
+\par
+\vspace{-17\baselineskip}
+\par\noindent\hspace*{0.49\textwidth}\input sticks-with-spec-moves-mfpicture-5
+\par
+\vspace{-2\baselineskip}
+\noindent
+\input sticks-with-spec-moves-mfpicture-12
+\fi
+\else
+\ifBigStretch
+\parshape=7
+0em \textwidth
+0.21\textwidth 0.79\textwidth
+0.43\textwidth 0.57\textwidth
+0.47\textwidth 0.53\textwidth
+0.52\textwidth 0.48\textwidth
+0.59\textwidth 0.41\textwidth
+0.71\textwidth 0.29\textwidth
+\phraseI{}
+\phraseII{}
+\phraseIII{}
+\par
+\vspace{-7\baselineskip}
+\noindent
+\input sticks-with-spec-moves-mfpicture-5
+\parshape=10
+0.23\textwidth 0.77\textwidth
+0.33\textwidth 0.67\textwidth
+0.43\textwidth 0.57\textwidth
+0.51\textwidth 0.49\textwidth
+0.55\textwidth 0.45\textwidth
+0.59\textwidth 0.41\textwidth
+0.69\textwidth 0.31\textwidth
+0.75\textwidth 0.25\textwidth
+0.80\textwidth 0.20\textwidth
+0.86\textwidth 0.14\textwidth
+\phraseIV{}
+\phraseV{}
+\par
+\vspace{-10\baselineskip}
+\noindent
+\input sticks-with-spec-moves-mfpicture-12
+\else
+\errorNotCalculatedYet
+\begin{Huge}верстка!!!\end{Huge}
+\input sticks-with-spec-moves-mfpicture-5
+\input sticks-with-spec-moves-mfpicture-12
+\phraseI{}
+\phraseII{}
+\phraseIII{}
+\phraseIV{}
+\phraseV{}
+\fi
+\fi
+
+\ifAfour\vspace{0.25ex}\par\hspace*{0.075\textwidth}\fi%
+Далі зображено самі позначки W/L (без стр\'{і}\-лок) для ще більшої кількості позицій,
+та вказано мінімальні~$s$, починаючи з яких позиції стають виграшними.
+
+\phantomsection
+\begin{small}
+\noindent%
+\ifAfour
+\input sticks-with-spec-moves-tabular-36
+\else
+\input sticks-with-spec-moves-tabular-30
+\fi
+\end{small}
+
+\label{fig:stick-with-spec-moves-positions}
+
+
+\ifglobalsf
+\end{sffamily}
+\fi
+\end{figure}
+
+На перший погляд, висновок <<позицією слід вважати пару~\dots>> украй погано поєднується з обмеженнями задачі: якщо $N\dib{{\approx}}1234567$, а позицією є пара, то кількість позицій перевищує $10^{12}/{4}$, що\nolinebreak[2] % в\nolinebreak[3] умовах олімпіади 
+не\nolinebreak[3] вкладеться ні\nolinebreak[3] в\nolinebreak[3] обмеження пам'яті, ні\nolinebreak[3] в\nolinebreak[3] обмеження часу.
+%
+Але дослідити, що вийде, якщо запрограмувати стандартний аналіз виграшності/програшності для позицій-пар, % все\nolinebreak[3] одно 
+варто. 
+Хоча~б тому, що така с\'{а}ма гра розглядається й у наступній задачі, а там обмеження % значно 
+менші. Але варто було~б, навіть якби наступної задачі взагалі не~було. 
+Накрайняк, навіть неефективну правильну програму можна здати, щоб отримати бали хоча~б за деякі з блоків. 
+% % % (\ERROR \begin{color}{red}\begin{Huge}{link to ready solution here}\end{Huge}\end{color}) 
+Але є й важливіша причина:
+буває, що ручний аналіз результатів, згенерованих менш ефективним розв'язком, дозволяє помітити деякі особливості, на основі яких можна придумати більш ефективний розв'язок. Так що дивимося на сукупності виграшних/програшних позицій, зображені\label{text:link-to-fig-stick-with-spec-moves-positions} 
+\ifAfour
+\ifnum\getpagerefnumber{text:link-to-fig-stick-with-spec-moves-positions}=\getpagerefnumber{fig:stick-with-spec-moves-positions}
+внизу цієї сторінки.
+\else
+внизу стор.~\pageref{fig:stick-with-spec-moves-positions}.
+\fi
+\else
+на стор.~\pageref{fig:stick-with-spec-moves-positions}.
+\fi
+
+Легко помітити, що позиції\nolinebreak[3] $(0;s)$ програшні при\nolinebreak[2] всіх~$s$, бо ${n\,{=}\,0}$ означає, що позиція дістається % гравцеві 
+після того, як суперник вже\nolinebreak[3] забрав останню паличку і виграв. Також легко помітити, що у\nolinebreak[3] випадку\nolinebreak[3] ${n\,{>}\,0}$ всі позиції $(n;s)$ при\nolinebreak[3] $s\dib{{\>}}\frac{n}{2}$ виграшні (бо\nolinebreak[3] при\nolinebreak[3] $s\dib{{\>}}\frac{n}{2}$ можна забрати всі палички за один хід% і тим виграти
+)
+
+А ще можна помітити таке: \begin{itshape}якщо деяка позиція $(n^{\star};s^{\star})$ виграшна, то виграшні й \underline{усі} позиції $(n^{\star};s)$ при тому самому~$n^{\star}$ та $s\dib{{\>}}s^{\star}$\end{itshape} (на\nolinebreak[2] діаграмах і в таблиці\nolinebreak[3] --- кожен стовпчик (крім\nolinebreak[3] ${n\,{=}\,0}$) або складається з сам\'{и}х лише~``W'', або має внизу скінч\'{е}нну кількість~``L'', а\nolinebreak[3] вище сам\'{і} лише~``W'').
+
+Доведемо, що це\nolinebreak[2] не\nolinebreak[3] збіг обставин для с\'{а}ме цих позицій, а так\nolinebreak[2] і\nolinebreak[2] є для\nolinebreak[3] всіх~${n\,{>}\,0}$. Куди можна піти з\nolinebreak[3] позиції\nolinebreak[3] $(n;1)$? Лише в\nolinebreak[3] ${(n\,{-}\,1;\,1)}$ (при\nolinebreak[2] всіх\nolinebreak[2] ${n\,{>}\,0}$) та\nolinebreak[2] в\nolinebreak[3] ${(n\,{-}\,2;\,2)}$ (при\nolinebreak[2] ${n\,{\>}\,2}$). А~куди з\nolinebreak[3] $(n;2)$? 
+При\nolinebreak[2] ${n\,{\<}\,2}$, % в~точності 
+в~ті\nolinebreak[3] с\'{а}мі позиції;
+при\nolinebreak[2] ${n\,{\>}\,3}$ до них додається\nolinebreak[3] ${(n\,{-}\,3;\,3)}$,
+а\nolinebreak[3] при\nolinebreak[2] ${n\,{\>}\,4}$ також\nolinebreak[3] ${(n\,{-}\,4;\,4)}$.
+Порівнюючи ходи\nolinebreak[2] з\nolinebreak[3] $(n;2)$ та з\nolinebreak[3] $(n;3)$, знов бачимо, що всі ходи з\nolinebreak[3] $(n;2)$ лишаються допустимими, і до них додаються (якщо $n$ досить велике) нові ${(n\,{-}\,5;\,5)}$ та\nolinebreak[3] ${(n\,{-}\,6;\,6)}$. І\nolinebreak[3] так для\nolinebreak[2] всіх збільшень\nolinebreak[3] $s$ при сталому~$n$: всі старі ходи лишаються, і\nolinebreak[2] до\nolinebreak[2] них, можливо, додаються нові. 
+% % % Значить, якщо при меншому~$s$ є хід у\nolinebreak[2] деяку програшну позицію 
+% % % (оскільки в\nolinebreak[3] цій\nolinebreak[2] грі нема тупикових виграшних позицій, 
+% % % це\nolinebreak[2] рівносильно <<позиція при меншому~$s$ виграшна>>), 
+% % % він лишається і при всіх більших~$s$, отже ті позиції теж виграшні.
+В~цій\nolinebreak[2] грі, позиція може бути виграшною лише за рахунок того,
+що з~неї існує хід у\nolinebreak[2] деяку програшну позицію.
+Отже, раз цей самий хід можливий і при всіх більших~$s$, всі позиції з більшим~$s$ при тому самому~$n$ теж виграшні.
+
+\myflfigaw{\phantomsection\label{code:201819-2-D-sticks-with-spec-moves-calc-minWinS}\ifAfour\hspace*{-1mm}\begin{minipage}{18em}\else\begin{minipage}{17.25em}\fi\begin{small}\renewcommand{\baselinestretch}{0.875}\begin{alltt}minWinS[0]:=round(2e9); // $+\infty$\\
+minWinS[1]:=1;\\
+for i:=2 to N do\\
+\tabbb{}for s:=1 to (i+1) div 2 do\\
+\tabbb\tabbb{}if (minWinS[i-(2*s-1)]$\,$>$\,$2*s-1) or\\
+\tabbb\tabbb\tabbb\tabbb{}(minWinS[i-2*s] > 2*s) then\\
+\tabbb\tabbb{}begin // при цьому s вперше \\
+\tabbb\tabbb\tabbb{}// знайшли хід у програшну\\
+\tabbb\tabbb\tabbb{}minWinS[i] := s; // позицію\\
+\tabbb\tabbb\tabbb{}break // обриваємо внутрішній\\
+\tabbb\tabbb\tabbb{}// цикл for s\begin{tiny}{...}\end{tiny}\\
+\tabbb\tabbb{}end // зовнішній цикл for i\begin{tiny}{...}\end{tiny}\\
+\tabbb\tabbb{}// продовжується\end{alltt}\end{small}\end{minipage}}
+% \myflfigaw{\begin{minipage}{17.5em}\begin{small}\renewcommand{\baselinestretch}{0.875}\begin{alltt}minWinS[0]:=round(2e9); // $+\infty$\\
+% minWinS[1]:=1;\\
+% for i:=2 to N do\\
+% \tabbb{}for s:=1 to (i+1) div 2 do\\
+% \tabbb\tabbb{}if (minWinS[i-(2*s-1)] > 2*s-1) or\\
+% \tabbb\tabbb\tabbb\tabbb{}(minWinS[i-2*s] > 2*s) then\\
+% \tabbb\tabbb{}begin // саме при цьому s вперше\\
+% \tabbb\tabbb\tabbb{}minWinS[i] := s; // знайшли хід\\
+% \tabbb\tabbb\tabbb{}break\tabbb{} // у програшну позицію\\
+% \tabbb\tabbb\tabbb{}// обриваємо (лише) внутрішній\\
+% \tabbb\tabbb\tabbb{}// цикл for j..., \\
+% \tabbb\tabbb\tabbb{}// зовнішній цикл for i... \\
+% \tabbb\tabbb{}end // продовжується\end{alltt}\end{small}\end{minipage}}
+% % % \myflfigaw{\begin{minipage}{17.5em}\begin{small}\renewcommand{\baselinestretch}{0.875}\begin{alltt}minWinS[0]:=round(2e9); // $+\infty$\\
+% % % minWinS[1]:=1;\\
+% % % for i:=2 to N do begin\\
+% % % \tabbb{}for s:=1 to (i+1) div 2 do begin\\
+% % % \tabbb\tabbb{}if (minWinS[i-(2*s-1)] > 2*s-1) or\\
+% % % \tabbb\tabbb\tabbb\tabbb{}(minWinS[i-2*s] > 2*s) then\\
+% % % \tabbb\tabbb{}begin // саме при цьому s вперше\\
+% % % \tabbb\tabbb\tabbb{}minWinS[i] := s; // знайшли хід\\
+% % % \tabbb\tabbb\tabbb{}break\tabbb{} // у програшну позицію\\
+% % % \tabbb\tabbb{}end\\
+% % % \tabbb{}end\\
+% % % end\end{alltt}\end{small}\end{minipage}}
+
+Це дає ключ до такого розв'язку. 
+Реалізуємо стандартний аналіз
+<<позиція виграшна, коли є хоча~б один хід у\nolinebreak[3] програшну>>, але\nolinebreak[2] не~зберігаючи кожну пару\nolinebreak[2] $(n;s)$, а\nolinebreak[3] подаючи інформацію в одновимірному масиві\nolinebreak[2] \texttt{minWinS} з діапазоном індексів \texttt{[0..}$N$\texttt{]} (обидві межі включно), де\nolinebreak[2] \texttt{minWinS[i]=k} означає, що всі позиції $(i;1)$, $(i;2)$,~\dots, ${(i;\,k\,{-}\,1)}$ (якщо вони взагалі існують, тобто ${k\,{>}\,1}$) програшні, а~всі позиції $(i;k)$, ${(i;\,k\,{+}\,1)}$,~\dots{} виграшні.
+
+По~суті, останній рядок\nolinebreak[3] стор.~\pageref{fig:stick-with-spec-moves-positions} і є таким масивом.
+
+Остат\'{о}чну відповідь можна визначити так: 
+якщо $\texttt{minWinS[N]}\dib{{=}}1$, то позиція $(N;1)$ виграшна 
+(виграє \mbox{1-й}\nolinebreak[3] гравець),
+інакше програшна~(\mbox{2-й}).
+% % % при \texttt{minWinS[N]>1}, позиція $(N;1)$ програшна 
+% % % %%%(\mbox{2-й}\nolinebreak[3] гравець може забезпечити собі виграш), 
+% % % %%%(при\nolinebreak[2] правильній грі виграє \mbox{2-й}\nolinebreak[3] гравець),
+% % % (виграє \mbox{2-й}\nolinebreak[3] гравець),
+% % % інакше виграшна~(\mbox{1-й}).
+
+Визначити асимптотичну складність цього розв'язку важко. Дивтися на верхню межу внутрішнього циклу \texttt{for s:=1 to (i+1) div 2 do}\dots{} і робити висновок про <<завелику для ${N\,{\approx}\,10^6}$ складність~$O(N^2)$>> нема толку, бо хоч цю межу й підібрано з осмисленого міркування <<при\nolinebreak[2] $2{\cdot}\texttt{s}\,{\>}\,\texttt{i}$ вже можна забрати всі\nolinebreak[2] \texttt{i}\nolinebreak[2] паличок одним ходом, тож ще більші~$s$ не~потрібні>>, фактично цей цикл завжди обривається \texttt{break}-ом, і\nolinebreak[3] справжня кількість його ітерацій незрозуміла.
+Експериментально, складність всього алгоритму схожа на $\Theta(N\log{}N)$ з малим константним множником. І\nolinebreak[3] цього досить, щоб пройти всі тести всіх блоків.
+
+% % % Є~приблизні 
+% % % % (неточні) міркування 
+% % % аргументи
+% % % на користь того, що в~середньому цей цикл завершується швидко. 
+% % % (1)~Якщо при деякому $\texttt{i}\dib{{=}}i^{\star}$ цей цикл робить багато ітерацій, то виходить велике\nolinebreak[2] \texttt{minWinS[$i^{\star}$]}, 
+% % % і при 
+% % % $\texttt{i}\dib{{=}}{i^{\star}{+}\,1}$ 
+% % % та 
+% % % $\texttt{i}\dib{{=}}{i^{\star}{+}\,2}$ 
+% % % буде лише одна ітерація (${\texttt{s}\,{=}\,1}$), яка знайде 
+% % % це велике\nolinebreak[2] \texttt{minWinS[$i^{\star}$]}:
+% % % при $\texttt{i}\dib{{=}}{i^{\star}{+}\,1}$, це буде $\texttt{minWinS[}\!\underbrace{\texttt{i}}_{i^{\star}{+}1}\!\!\!-\underbrace{(2{\cdot}s{-}1)}_{1}\texttt{]}\dib{{>}}\underbrace{2{\cdot}s{-}1}_{1}$,
+% % % а при $\texttt{i}\dib{{=}}{i^{\star}{+}\,2}$, $\texttt{minWinS[}\!\underbrace{\texttt{i}}_{i^{\star}{+}2}\!\!\!-\underbrace{2{\cdot}s}_{2}\texttt{]}\dib{{>}}\underbrace{2{\cdot}s}_{2}$;
+% % % аналогічно, 
+% % % при 
+% % % ${i^{\star}{+}\,3}$ 
+% % % та 
+% % % ${i^{\star}{+}\,4}$ 
+% % % ітерацій буде щонайбільше дві;
+% % % при 
+% % % ${i^{\star}{+}\,5}$ 
+% % % та 
+% % % ${i^{\star}{+}\,6}$\nolinebreak[3] --- щонайбільше три; і~т.~д.\linebreak[2] 
+% % % (2)~Якщо при деякому $i^{\star}\dib{{+}}i^{\star\star}$ вкладений цикл завершується не~дуже скоро, то \texttt{minWinS[$i^{\star}\dib{{+}}i^{\star\star}$]} \emph{теж} виявляється засобом обмеження кількості ітерацій вкладеного циклу при $i^{\star}\dib{{+}}i^{\star\star}\dib{{+}}1$, $i^{\star}\dib{{+}}i^{\star\star}\dib{{+}}2$,\nolinebreak[3] \dots, і ці два обмеження (\texttt{minWinS[$i^{\star}$]} та \texttt{minWinS[$i^{\star}\dib{{+}}i^{\star\star}$]}) діють собі одночасно, не~заважаючи одн\'{е} \'{о}д\-но\-му і не~потребуючи ніяких спеціальних дій. А\nolinebreak[3] де\nolinebreak[2] два обмеження, там і три, і більше.
+
+
+При\nolinebreak[2] бажанні можна побудувати й ще значно ефективніший алгоритм. 
+%
+Продовживши аналіз таблиці з виграшними та програшними позиціями та/або масиву\nolinebreak[2] \texttt{minWinS}, можна помітити, що особливо великі значення у\nolinebreak[3] \texttt{minWinS} досягаються на індексах, рівних числам Фібоначчі. 
+Тож\nolinebreak[2] можна спробувати, що буде, якщо записувати значення~$N$ у т.~зв. <<фібоначчієвій системі числення>> (що\nolinebreak[2] це\nolinebreak[2] таке, зайдіть самостійно), й отримати, що \mbox{2-й}\nolinebreak[3] гравець може забезпечити собі виграш при тих і тільки для тих початкових значеннях~$N$, які у фібоначчієвій системі закінчуються на хоча~б два нулі. Як\nolinebreak[3] це\nolinebreak[2] строго довести і чи\nolinebreak[3] можна це використати також і в наступній задачі (де\nolinebreak[3] значно більша потреба працювати\nolinebreak[2] з\nolinebreak[3] ${s\,{>}\,1}$), нехай залишиться за\nolinebreak[2] межами цього збірника.
+
+Насамкінець, якщо визначити, що позиціями гри є пари\nolinebreak[3] $(n;s)$, але\nolinebreak[2] не~помітити властивість <<якщо деяка позиція $(n^{\star};s^{\star})$ виграшна, то виграшні й \emph{усі} позиції $(n^{\star};s)$ при\nolinebreak[2] тому\nolinebreak[3] ж\nolinebreak[3] $n^{\star}$ та $s\dib{{\>}}s^{\star}$>>, може мати смисл реалізувати стандартну перевірку позицій на виграшність\nolinebreak\hspace{0pt plus 1pt}/\nolinebreak[2]\hspace{0pt plus 1pt}про\-граш\-ність рекурсією із за\-пам'\-я\-то\-ву\-ва\-н\-ня\-ми, зберігаючи результати вже переглянутих позицій не~у~двовимірному масиві, а~в~\mbox{\texttt{map}-і} (в~деяких мовах програмування це називається \texttt{dictionary}, в~літературі поширена також назва <<асоціативний масив>>), ключами якого є такі пари\nolinebreak[3] $(n;s)$. При грамотній реалізації (зокрема, оголошувати позицію виграшною, щойно знайшовши перший хід у програшну, а~не~крутити цикл завжди до~кінця) значна частина з $\Theta(N^2)$ позицій, теоретично досяжних з позиції\nolinebreak[3] $(N;1)$, практично не~розглядаються, тож не~потрапляють у~\texttt{map}, тож такий розв'язок \emph{можна} написати так, що він пройде передостанній блок тестів ($12345\dib{{\<}}N\dib{{\<}}43210$). Але пройти так останній блок, начебто, неможливо.

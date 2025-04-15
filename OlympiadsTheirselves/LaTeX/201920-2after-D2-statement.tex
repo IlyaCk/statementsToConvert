@@ -1,0 +1,159 @@
+\begin{problemAllDefault}{Прямокутні максимуми}
+
+\myflfigaw{\hspace*{-0.25em}\noindent\raisebox{0pt}[5\baselineskip][5\baselineskip]{\begin{tabular}{@{}c|c|c@{}}
+% Мова
+&
+Прямий лінк на файл
+&
+\begin{footnotesize}\hspace{-0.5em}\begin{minipage}{0.085\textwidth}
+\begin{center}
+Його \mbox{потім} здавати?
+\end{center}
+\end{minipage}\end{footnotesize}
+\\\hline
+\multirow{3}{*}{\rotatebox[origin=c]{90}{\texttt{g++}}\hspace*{-0.25em}}
+&
+\begin{footnotesize}%
+\href{https://ejudge.ckipo.edu.ua/201920-2a-D-header-g++.cpp}{ejudge.ckipo.edu.ua/201920-2a-D-header-g++.cpp}%
+\end{footnotesize}
+&
+Ні
+\\
+% \texttt{g++}
+&
+\begin{footnotesize}%
+\href{https://ejudge.ckipo.edu.ua/201920-2a-D-sample-g++.cpp}{ejudge.ckipo.edu.ua/201920-2a-D-sample-g++.cpp}%
+\end{footnotesize}
+&
+Так
+\\
+% \texttt{g++}
+&
+\begin{footnotesize}%
+\href{https://ejudge.ckipo.edu.ua/201920-2a-D-footer-g++.cpp}{ejudge.ckipo.edu.ua/201920-2a-D-footer-g++.cpp}%
+\end{footnotesize}
+&
+Ні
+\\\hline
+\multirow{3}{*}{\rotatebox[origin=c]{90}{\texttt{fpc}}\hspace*{-0.25em}}
+&
+\begin{footnotesize}%
+\href{https://ejudge.ckipo.edu.ua/201920-2a-D-header-fpc.pas}{ejudge.ckipo.edu.ua/201920-2a-D-header-fpc.pas}%
+\end{footnotesize}
+&
+Ні
+\\
+% \texttt{fpc}
+&
+\begin{footnotesize}%
+\href{https://ejudge.ckipo.edu.ua/201920-2a-D-sample-fpc.pas}{ejudge.ckipo.edu.ua/201920-2a-D-sample-fpc.pas}%
+\end{footnotesize}
+&
+Так
+\\
+% \texttt{fpc}
+&
+\begin{footnotesize}%
+\href{https://ejudge.ckipo.edu.ua/201920-2a-D-footer-fpc.pas}{ejudge.ckipo.edu.ua/201920-2a-D-footer-fpc.pas}%
+\end{footnotesize}
+&
+Ні
+\\\hline
+\multirow{3}{*}{\rotatebox[origin=c]{90}{\texttt{javac}}\hspace*{-0.25em}}
+&
+\begin{footnotesize}%
+\hspace*{-0.75em}\href{https://ejudge.ckipo.edu.ua/201920-2a-D-header-javac.java}{ejudge.ckipo.edu.ua/201920-2a-D-header-javac.java}\hspace*{-0.75em}%
+\end{footnotesize}
+&
+Ні
+\\
+% \texttt{java}
+&
+\begin{footnotesize}%
+\hspace*{-0.75em}\href{https://ejudge.ckipo.edu.ua/201920-2a-D-sample-javac.java}{ejudge.ckipo.edu.ua/201920-2a-D-sample-javac.java}\hspace*{-0.75em}%
+\end{footnotesize}
+&
+Так
+\\
+% \texttt{java}
+&
+\begin{footnotesize}%
+\hspace*{-0.5em}\href{https://ejudge.ckipo.edu.ua/201920-2a-D-footer-javac.java}{ejudge.ckipo.edu.ua/201920-2a-D-footer-javac.java}\hspace*{-0.5em}%
+\end{footnotesize}
+&
+Ні
+\end{tabular}}}
+
+Алгоритмічна суть задачі повністю повторює задачу~D <<Прямокутні максимуми>> з ІІ~(районного/\nolinebreak[3]міського) етапу Всеукраїнської олімпіади з інформатики (програмування) по Черкаській області, що відбувся 14.12.2019 (див. змагання~70 сайту \EjudgeCkipoName).
+\underline{\emph{Єдина}} відмінність 
+від попередньої задачі\nolinebreak[3] --- 
+потрібно знаходити максимальне число прямокутника, а~не~суму. 
+
+Всі технічні умови такі~ж, як у попередній задачі цього комплекту, крім того, що: 
+(1)~одна з підпрограм (функцій для C++ та Pascal, методів для Java), які Ви повинні реалізувати, називається \texttt{calcRectMax} замість \texttt{calcRectSum} та повинна вертати 32-бітовий тип (\texttt{int}/\nolinebreak[2]\texttt{integer}/\nolinebreak[2]\texttt{int} залежно від мови програмування) замість 64-бітового;
+(2)~мовою Pascal, означення типу масиву має вигляд \texttt{type Arr2D = array[1..1234, 1..1234] of integer}.
+
+% \begin{small}
+
+\myflfigaw{\hspace*{-0.25em}\raisebox{0pt}[3.75\baselineskip][3.5\baselineskip]{\begin{small}\begin{tabular}{@{}c|c|p{0.425\textwidth}|c|c@{}}
+блок\hspace*{-0.01\textwidth}
+&
+тести
+&
+\multicolumn{1}{c|}{обмеження}
+&
+передумови
+&
+бали
+\\\hline\hline%\endhead
+1 & 
+1--5 & 
+${2\,{\<}\,N,M,T,a_{ij}\,{\<}\,9}$ & 
+нема & 
+10\% 
+\\\hline
+2 & 
+6--10 & 
+${1\,{\<}\,N,M,T\,{\<}\,100}$; ${1\,{\<}\,a_{ij}\,{\<}\,10^4}$ &
+блок~1 & 
+10\% \\\hline
+3 &
+11--14 & 
+${100\,{\<}\,N,M\,{\<}\,400}$; ${123\,{\<}\,T,a_{ij}\,{\<}\,43210}$ &
+блоки \mbox{1--2} & 
+15\% \\\hline
+4 &
+15--18 & 
+${400\,{\<}\,N,M\,{\<}\,500}$; ${54321\,{\<}\,T\,{\<}\,222555}$; ${1\,{\<}\,a_{ij}\,{\<}\,10^9}$ &
+блоки \mbox{1--3} & 
+15\% \\\hline
+5 &
+19--22 & 
+${555\,{\<}\,N,M\,{\<}\,1111}$; ${12345\,{\<}\,T\,{\<}\,54321}$; ${1\,{\<}\,a_{ij}\,{\<}\,10^9}$ &
+блоки \mbox{1--3} & 
+15\% \\\hline
+6 &
+23--26 & 
+${500\,{\<}\,N,M\,{\<}\,700}$; ${5{\cdot}10^5\,{\<}\,T\,{\<}\,10^6}$; ${1\,{\<}\,a_{ij}\,{\<}\,10^9}$ &
+блоки \mbox{1--4} & 
+15\% \\\hline
+7 &
+27--32 & 
+${12\,{\<}\,N,M\,{\<}\,1234}$; ${8{\cdot}10^5\,{\<}\,T\,{\<}\,10^6}$; ${1\,{\<}\,a_{ij}\,{\<}\,10^9}$ &
+блоки \mbox{1--6} & 
+20\%
+\end{tabular}\end{small}}}
+
+\Scoring
+Аналогічно попередній задачі, але обмеження блоків та розподіл балів між ними 
+трохи інші (див. праворуч).
+%
+Аналогічно попередній задачі, у~блоках 1~та~2 тести в~точності збігаються з відповідними тестами задачі~D <<Прямокутні максимуми>> з ІІ~(районного/\nolinebreak[3]міського) етапу Всеукраїнської олімпіади з інформатики (програмування) по Черкаській області, що відбувся 14.12.2019; зокрема, 1-й тест 1-го блоку відповідає тому тесту, котрий там наведений в умові. 
+% В~подальших блоках однаковість тестів не~гарантується, і, як~правило, не~дотримана.
+В~подальших блоках тести інші.
+
+% \end{small}
+
+% \vspace{-0.75\baselineskip}
+ 
+\end{problemAllDefault}

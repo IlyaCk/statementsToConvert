@@ -1,0 +1,420 @@
+\Tutorial	Головним є пошук найкоротшого шляху, тож природним є
+алгоритм пошуку вшир (вiн\nolinebreak[3] же пошук у ширину, вiн\nolinebreak[3] же\nolinebreak[3] BFS), причому у варіанті з відновленням шляху. Його описи знайдіть у лiтературi чи Iнтернетi.
+%, бо цей збірник не~може включити в себе всі потрібні алгоритми. 
+А\nolinebreak[3] особливості графу, до якого його слід застосувати, розглянемо.
+
+В умові нема понять <<клітинка>> та її <<сторона>>, але їх варто ввести, бо без них важко формалізувати <<крок>> і <<по\nolinebreak[3] слідам>>. Будемо вважати, що Тезей рухається клітинками деякого прямокутника, і кожен з його <<кроків>> являє собою перехід на клітинку вище\nolinebreak[3] (\texttt{N}), нижче\nolinebreak[3] (\texttt{S}), лівіше\nolinebreak[3] (\texttt{W}) чи правіше~(\texttt{E}). Розміри прямокутника, на\nolinebreak[2] жаль, невідомі; але, на\nolinebreak[2] щастя, при співвідношенні <<до~200\nolinebreak[3] кроків, ліміт пам'яті до\nolinebreak[3] 64~Мб>>, це не~є\nolinebreak[2] серйозною проблемою. Як\nolinebreak[3] один з варіантів (громіздкий, зате ідейно простий), можна вважати, що і\nolinebreak[3] рядки, і\nolinebreak[3] стовпчики занумеровані від 0 до~400 (обидві меж\'{і} включно), і старт знаходиться у клітинці \texttt{[200][200]}. Можна придумати й інші, економніші за обсягом пам'яті, способи, але детальнішу дискусію про це залишимо за межами цього збірника.
+
+Очевидно, що вершинами графа є клітинки; ребрами\nolinebreak[3] --- не~просто сусідні клітинки, а\nolinebreak[2] такі сусідні, що між ними Тезей проходив; граф неорієнтований, тобто те, що Тезей проходив хоча\nolinebreak[3] б в\nolinebreak[2] одному з напрямків, дозволяє перехід між цими клітинками у\nolinebreak[2] будь-якому напрямку. 
+
+{\def\holeInVert#1#2{\gfill\polygon{(#1-0.0625,#2+0.25),(#1-0.0625,#2+0.75),(#1+0.0625,#2+0.75),(#1+0.0625,#2+0.25)}}
+%requires fillcolor to be white or light-gray
+\def\holeInHor#1#2{\gfill\polygon{(#1+0.25,#2-0.0625),(#1+0.75,#2-0.0625),(#1+0.75,#2+0.0625),(#1+0.25,#2+0.0625)}}
+
+\begin{figure*}
+
+\hyphenpenalty=-1
+
+\ifBigStretch
+\renewcommand{\baselinestretch}{1.25}
+\else
+\renewcommand{\baselinestretch}{1}
+\fi
+
+\noindent
+\begin{minipage}{\textwidth}
+
+\begin{\mainFontFamily}
+
+\noindent
+\begin{minipage}[t]{24em}
+
+\noindent
+\begin{minipage}[t]{5em}
+
+\renewcommand{\baselinestretch}{0.75}
+
+\vspace{-0.5\baselineskip}
+
+\noindent
+\begin{verbatim}
+*********
+*.*.*.*.*
+*********
+*.*.*.*.*
+*********
+*.*.*.*.*
+*********
+*.*.*.*.*
+*********
+\end{verbatim}
+
+\vspace{-0.5\baselineskip}
+
+\myhrulefill
+
+\noindent
+\begin{verbatim}
+*********
+*.*.*...*
+*****.*.*
+*.*.*...*
+*****.***
+*.....*.*
+*****.***
+*.*...*.*
+*********
+\end{verbatim}
+
+\end{minipage}
+\begin{footnotesize}\ifBigStretch\renewcommand{\baselinestretch}{0.75}\else\renewcommand{\baselinestretch}{0.5}\fi\begin{tabular}[t]{@{}c|l@{}}
+0	& 			\\
+1	& 			\\
+2	& 3, 6		\\
+3	& 2, 7		\\
+4	& 			\\
+5	& 			\\
+6	& 2, 10, 7	\\
+7	& 3, 6		\\
+8	& 9			\\
+9	& 8, 10		\\
+10	& 6, 14, 9	\\
+11	& 			\\
+12	& 			\\
+13	& 13		\\
+14	& 10, 13	\\
+15	& 			\\
+\end{tabular}
+\end{footnotesize}
+\raisebox{-160pt}[12pt][144pt]{\begin{mfpic}[40]{0}{4}{0}{4}
+\pen{2pt}
+\lines{(0,0),(4,0)}
+\lines{(0,1),(4,1)}
+\lines{(0,2),(4,2)}
+\lines{(0,3),(4,3)}
+\lines{(0,4),(4,4)}
+\lines{(0,0),(0,4)}
+\lines{(1,0),(1,4)}
+\lines{(2,0),(2,4)}
+\lines{(3,0),(3,4)}
+\lines{(4,0),(4,4)}
+\fillcolor{gray(0.75)}
+\holeInVert{1}{1}
+\holeInVert{2}{1}
+\holeInHor{2}{2}
+\holeInHor{2}{3}
+\holeInVert{3}{3}
+\holeInHor{3}{3}
+\holeInVert{3}{2}
+\holeInHor{2}{1}
+\holeInVert{2}{0}
+\pen{5pt}
+\lines{
+(0.5,1.5),
+(1.5,1.5),
+(2.5,1.5),
+(2.5,2.5),
+(2.5,3.5),
+(3.5,3.5),
+(3.5,2.5),
+(2.5,2.5),
+(2.5,1.5),
+(2.5,0.5),
+(1.5,0.5),
+(2.5,0.5)}
+\tlabel[bl](0.55,1.55){0}
+\tlabel[bl](1.55,1.55){1}
+\tlabel[bl](2.55,1.55){\font\smaller=cmss9 {\smaller 2,8}}
+\tlabel[bl](2.55,2.55){\font\smaller=cmss9 {\smaller 3,7}}
+\tlabel[bl](2.55,3.55){4}
+\tlabel[bl](3.55,3.55){5}
+\tlabel[bl](3.55,2.55){6}
+% \tlabel[bl](2.55,2.55){7}
+% \tlabel[bl](2.55,1.55){8}
+\begin{footnotesize}
+\tlabel[bl](2.55,0.55){\font\smaller=cmss8 {\smaller 9,11}}
+\end{footnotesize}
+\tlabel[bl](1.55,0.55){10}
+% \tlabel[bl](2.55,0.55){11}
+%
+%
+\tlabel[bl](0.03125,0.0625){$_{0000}$}
+\tlabel[bl](1.03125,0.0625){$_{0001}$}
+\tlabel[bl](2.03125,0.0625){$_{0010}$}
+\tlabel[bl](3.03125,0.0625){$_{0000}$}
+%
+\tlabel[bl](0.03125,1.0625){$_{0001}$}
+\tlabel[bl](1.03125,1.0625){$_{0011}$}
+\tlabel[bl](2.03125,1.0625){$_{1110}$}
+\tlabel[bl](3.03125,1.0625){$_{0000}$}
+%
+\tlabel[bl](0.03125,2.0625){$_{0000}$}
+\tlabel[bl](1.03125,2.0625){$_{0000}$}
+\tlabel[bl](2.03125,2.0625){$_{1101}$}
+\tlabel[bl](3.03125,2.0625){$_{0000}$}
+%
+\tlabel[bl](0.03125,3.0625){$_{0000}$}
+\tlabel[bl](1.03125,3.0625){$_{0000}$}
+\tlabel[bl](2.03125,3.0625){$_{0101}$}
+\tlabel[bl](3.03125,3.0625){$_{0110}$}
+%
+\tlabel[tl](0.0625,3.9375){$0$}
+\tlabel[tl](1.0625,3.9375){$1$}
+\tlabel[tl](2.0625,3.9375){$2$}
+\tlabel[tl](3.0625,3.9375){$3$}
+%
+\tlabel[tl](0.0625,2.9375){$4$}
+\tlabel[tl](1.0625,2.9375){$5$}
+\tlabel[tl](2.0625,2.9375){$6$}
+\tlabel[tl](3.0625,2.9375){$7$}
+%
+\tlabel[tl](0.0625,1.9375){$8$}
+\tlabel[tl](1.0625,1.9375){$9$}
+\tlabel[tl](2.0625,1.9375){$10$}
+\tlabel[tl](3.0625,1.9375){$11$}
+%
+\tlabel[tl](0.0625,0.9375){$12$}
+\tlabel[tl](1.0625,0.9375){$13$}
+\tlabel[tl](2.0625,0.9375){$14$}
+\tlabel[tl](3.0625,0.9375){$15$}
+%
+\end{mfpic}}
+\end{minipage}
+
+\ifBigStretch
+\vspace*{-11.5\baselineskip}
+\else
+\vspace*{-14\baselineskip}
+\fi
+
+\ifBigStretch
+\parshape=13
+25em 10em
+23em 12em
+23em 12em
+23em 12em
+23em 12em
+23em 12em
+23em 12em
+23em 12em
+23em 12em
+10em 25em
+10em 25em
+10em 25em
+0pt \textwidth
+\else
+\parshape=16
+28.5em 16em
+26.5em 18em
+26.5em 18em
+26.5em 18em
+26.5em 18em
+26.5em 18em
+26.5em 18em
+26.5em 18em
+26.5em 18em
+26.5em 18em
+26.5em 18em
+26.5em 18em
+10em 34.5em
+10em 34.5em
+10em 34.5em
+0pt \textwidth
+\fi
+На\nolinebreak[3] рисунку зображено приклад з умови; р\'{е}бра виділено сірими розривами у сторонах клітинок. Ч\'{и}сла трохи правіше й вище центрів клітинок позначають порядок, в якому їх відвідував Тезей. Ч\'{и}сла у лівих верхніх кутах клітинок позначають глобальні номери, а між рисунками зображено відповідні цим номерам і способу~(А) списки суміжності. Послідовності з чотирьох нуликів та/або одиничок у лівих нижніх кутах клітинок позначають, як мають описуватися переходи з кожної клітики способом~(Б). Нарешті, окреме поле з самих лише зірочок (<<стін>>) і крапочок (<<проходів>>), зображене ліворуч унизу, позначає поле, зображене праворуч, способом~(В); для порівняння, ліворуч угорі наведено поле з таких само клітинок, яке не\nolinebreak[3] містить ніяких переходів Тезея.
+
+\end{\mainFontFamily}
+
+\end{minipage}
+
+\vspace{\baselineskip}
+
+\myhrulefill
+
+\phantomsection\label{fig:201213-2-Maze}
+
+\end{figure*}
+
+Є щонайменше три природні способи подавати такий граф:\linebreak[2]
+(А)~занумерувати клітинки (наприклад, але\nolinebreak[2] не\nolinebreak[3] обов'язково, рядок за рядком), після чого використати звичайні списки суміжності;\linebreak[2]
+(Б)~зберігати для кожної клітинки чотири булеві значення: 
+чи~є проходи нагору\nolinebreak[3] (\texttt{N}),
+униз\nolinebreak[3] (\texttt{S}),
+ліворуч\nolinebreak[3] (\texttt{W}),
+праворуч\nolinebreak[3] (\texttt{E}) (можна в іншому порядку, с\'{а}ме цей взятий лише тому, що так в умові);\linebreak[2]
+(В)~перетворити поле з ${n\,{\times}\,m}$ клітинок, де стінки між клітинками можуть містити чи не~містити проходи, у\nolinebreak[2] поле з ${(2n\,{+}\,1)}\dib{{\times}}{(2m\,{+}\,1)}$ клітинок, де\nolinebreak[2] проходи (р\'{е}бра) є між усіма сусідініми крапочками, а стіни (відсутності проходів) позначені зірочками. Приклади всіх цих підходів зображені на рис. нагорі стор.~\pageref{fig:201213-2-Maze}. Само собою, потреби робити зразу все нема; слід вибрати один найзнайоміший з цих способів, або придумати який-небудь свій.
+
+\myhrulefill
+
+Насамкінець, пояснимо неправильність деяких <<ідей>>, які часто виникають при недостатньо ретельному аналізі цієї задачі. 
+По-перше, не~можна <<просто рахувати зсуви по вертикалі й по горизонталі>>, бо сказано <<можна iти лише по слiдам Тезея>>, і, наприклад, для вхідних даних \texttt{EENNESWSSW} (як\nolinebreak[2] в\nolinebreak[2] умові, лише без останнього переходу) не~можна відповідати\nolinebreak[3] ``\texttt{NW}'', бо це проходило~б крізь межу між клітинками, яку Тезей не~перетинав; правильною була~б відповідь\nolinebreak[3] \texttt{ENWW}.
+
+\myflfigaw{\begin{tabular}{@{}c|c@{}}
+\begin{mfpic}[18]{0}{4}{0}{4}
+\pen{0.75pt}
+\lines{(0,0),(4,0)}
+\lines{(0,1),(4,1)}
+\lines{(0,2),(4,2)}
+\lines{(0,3),(4,3)}
+\lines{(0,4),(4,4)}
+\lines{(0,0),(0,4)}
+\lines{(1,0),(1,4)}
+\lines{(2,0),(2,4)}
+\lines{(3,0),(3,4)}
+\lines{(4,0),(4,4)}
+\fillcolor{gray(0.75)}
+\holeInVert{2}{0}
+\holeInHor{2}{1}
+\holeInHor{2}{2}
+\holeInHor{2}{3}
+\holeInVert{2}{3}
+\holeInHor{1}{3}
+\holeInHor{1}{2}
+\holeInVert{2}{1}
+\holeInVert{3}{1}
+\holeInHor{3}{2}
+\holeInVert{3}{2}
+\holeInVert{2}{2}
+\holeInVert{1}{2}
+% \holeInHor{1}{1}
+% \holeInHor{1}{2}
+% \holeInVert{2}{2}
+% \holeInVert{3}{2}
+% \holeInHor{3}{2}
+% \holeInVert{3}{1}
+% \holeInVert{2}{1}
+% \holeInVert{1}{1}
+% \holeInHor{0}{2}
+% \holeInHor{0}{3}
+% \holeInVert{1}{3}
+% \holeInVert{2}{3}
+% \holeInVert{3}{3}
+% \holeInVert{3}{2}
+% \holeInVert{3}{1}
+\pen{1.5pt}
+\lines{
+(1.5,0.5), 
+(2.5,0.5),
+(2.5,1.5),
+(2.5,2.5),
+(2.5,3.5),
+(1.5,3.5),
+(1.5,2.5),
+(1.5,1.5),
+(2.5,1.5),
+(3.5,1.5),
+(3.5,2.5),
+(2.5,2.5),
+(1.5,2.5),
+(0.5,2.5)}
+\pen{3pt}
+\lines{
+(1.5,0.5), 
+(2.5,0.5),
+(2.5,1.5),
+(2.5,2.5),
+(1.5,2.5),
+(0.5,2.5)}
+\tlabel[bl](1.55,0.55){\font\smaller=cmss9 {\smaller 0}}
+\tlabel[bl](2.55,0.55){\font\smaller=cmss9 {\smaller 1}}
+\tlabel[bl](2.55,1.55){\font\smaller=cmss9 scaled 600{\smaller 2,8}}
+\tlabel[bl](2.55,2.55){\font\smaller=cmss9 scaled 400{\smaller 3,11}}
+\tlabel[bl](2.55,3.55){\font\smaller=cmss9 {\smaller 4}}
+\tlabel[bl](1.55,3.55){\font\smaller=cmss9 {\smaller 5}}
+\tlabel[bl](1.55,2.55){\font\smaller=cmss9 scaled 400{\smaller 6,12}}
+\tlabel[bl](1.55,1.55){\font\smaller=cmss9 {\smaller 7}}
+% \tlabel[bl](2.55,1.55){\font\smaller=cmss9 {\smaller 8}}
+\tlabel[bl](3.55,1.55){\font\smaller=cmss9 {\smaller 9}}
+\tlabel[bl](3.55,2.55){\font\smaller=cmss9 scaled 800{\smaller 10}}
+% \tlabel[bl](2.55,2.55){\font\smaller=cmss9 scaled 800{\smaller 11}}
+% \tlabel[bl](1.55,2.55){\font\smaller=cmss9 scaled 800{\smaller 12}}
+\tlabel[bl](0.55,2.55){\font\smaller=cmss9 scaled 800{\smaller 13}}
+\end{mfpic}
+&
+\begin{mfpic}[18]{0}{4}{0}{4}
+\pen{0.75pt}
+\lines{(0,0),(4,0)}
+\lines{(0,1),(4,1)}
+\lines{(0,2),(4,2)}
+\lines{(0,3),(4,3)}
+\lines{(0,4),(4,4)}
+\lines{(0,0),(0,4)}
+\lines{(1,0),(1,4)}
+\lines{(2,0),(2,4)}
+\lines{(3,0),(3,4)}
+\lines{(4,0),(4,4)}
+\fillcolor{gray(0.75)}
+\holeInHor{1}{1}
+\holeInHor{1}{2}
+\holeInVert{2}{2}
+\holeInVert{3}{2}
+\holeInHor{3}{2}
+\holeInVert{3}{1}
+\holeInVert{2}{1}
+\holeInVert{1}{1}
+\holeInHor{0}{2}
+\holeInHor{0}{3}
+\holeInVert{1}{3}
+\holeInVert{2}{3}
+\holeInHor{2}{3}
+\holeInHor{2}{2}
+\holeInHor{2}{1}
+\pen{1.5pt}
+\lines{
+(1.5,0.5),
+(1.5,1.5),
+(1.5,2.5),
+(2.5,2.5),
+(3.5,2.5),
+(3.5,1.5),
+(2.5,1.5),
+(1.5,1.5),
+(0.5,1.5),
+(0.5,2.5),
+(0.5,3.5),
+(1.5,3.5),
+(2.5,3.5),
+(2.5,2.5),
+(2.5,1.5),
+(2.5,0.5)}
+\pen{3pt}
+\lines{
+(1.5,0.5),
+(1.5,1.5),
+(2.5,1.5),
+(2.5,0.5)}
+\tlabel[bl](1.55,0.55){\font\smaller=cmss9 {\smaller 0}}
+\tlabel[bl](1.55,1.55){\font\smaller=cmss9 scaled 600{\smaller 1,7}}
+\tlabel[bl](1.55,2.55){\font\smaller=cmss9 {\smaller 2}}
+\tlabel[bl](2.55,2.55){\font\smaller=cmss9 scaled 400{\smaller 3,13}}
+\tlabel[bl](3.55,2.55){\font\smaller=cmss9 {\smaller 4}}
+\tlabel[bl](3.55,1.55){\font\smaller=cmss9 {\smaller 5}}
+\tlabel[bl](2.55,1.55){\font\smaller=cmss9 scaled 400{\smaller 6,14}}
+% \tlabel[bl](1.55,1.55){\font\smaller=cmss9 {\smaller 7}}
+\tlabel[bl](0.55,1.55){\font\smaller=cmss9 {\smaller 8}}
+\tlabel[bl](0.55,2.55){\font\smaller=cmss9 {\smaller 9}}
+\tlabel[bl](0.55,3.55){\font\smaller=cmss9 scaled 800{\smaller 10}}
+\tlabel[bl](1.55,3.55){\font\smaller=cmss9 scaled 800{\smaller 11}}
+\tlabel[bl](2.55,3.55){\font\smaller=cmss9 scaled 800{\smaller 12}}
+% \tlabel[bl](2.55,2.55){\font\smaller=cmss9 {\smaller 13}}
+% \tlabel[bl](2.55,1.55){\font\smaller=cmss9 {\smaller 14}}
+\tlabel[bl](2.55,0.55){\font\smaller=cmss9 scaled 800{\smaller 15}}
+\end{mfpic}
+\\
+\footnotesize{\texttt{ENNNWSSEENWWW}}
+&
+\footnotesize{\texttt{NNEESWWWNNEESSS}}
+\end{tabular}}
+
+По-друге, ідея <<шукати та вирізати цикли>> правильна часто, але\nolinebreak[2] теж не\nolinebreak[3] завжди.
+Зокрема, як видно з рисунка нагорі\label{text:201213-2-D-Maze-counter-example-2}
+\ifnum\getpagerefnumber{text:201213-2-D-Maze-counter-example-2}=\getpagerefnumber{fig:201213-2-Maze}%
+цієї сторінки,
+\else%
+стор.~\pageref{fig:201213-2-Maze},
+\fi%
+для прикладу з умови, \mbox{2-а} та \mbox{8-а} клітинки збігаються; \mbox{9-а} та \mbox{11-а} теж; значить, можна викинути все, що між \mbox{2-ю} та\nolinebreak[2] \mbox{8-ю}, об'єднавши їх; аналогічно між \mbox{9-ю} та\nolinebreak[3] \mbox{11-ю}.
+
+Але\nolinebreak[2] це погано працює, наприклад, для вхідних даних \texttt{ENNNWSSEENWWW} (де\nolinebreak[2] важливо ще правильно здогадатися, \emph{який} із кількох циклів вирізати, щоб отримати правильну відповідь \texttt{EESSW}, а\nolinebreak[3] не,\nolinebreak[3] наприклад, \texttt{EEESWSW}),\linebreak[2] і геть не~працює, наприклад, для вхідних даних \texttt{NNEESWWWNNEESSS} (де\nolinebreak[2] правильна відповідь \texttt{NWS} взагалі не~отримується таким способом).
+
+}

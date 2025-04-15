@@ -1,0 +1,48 @@
+\myflfigaw{\ifAfour\else\raisebox{-60pt}[0pt][36pt]\fi{\mbox{\begin{mfpic}[3]{-10}{10}{-10}{10}
+\circle{(0,0),14.14}
+\rect{(-10,-10),(10,10)}
+\lines{(-1,1),(0,2),(1,1)}
+\dotted\lines{(0,0),(10,-10)}
+\dotted\lines{(0,0),(-10,-10)}
+\pen{1pt}
+\lines{(0,0),(10,10)}
+\lines{(0,0),(-10,10)}
+\lines{(-10,10),(10,10)}
+\tlabel[tl](5,5){$R$}
+\tlabel[tr](-5,5){$R$}
+\tlabel[bc](0,10.5){$a$}
+\end{mfpic}}}}
+\Tutorial	
+Враховуючи приклад \textnumero$\,$1 (з~умови), очевидно, що ситуація \textnumero$\,$1 має місце тоді й тільки тоді, коли сторона квадрата більша-або-рівна подвоєного радіусу (діаметра) круга. 
+
+Лишилося проаналізувати аналогічний <<переломний момент>>, що розділяє ситуації \textnumero$\,$2 та\nolinebreak[3] \textnumero$\,$3; він зображений на рис. праворуч.
+Бачимо прямокутний трикутник, катети якого є одночасно радіусами і половинками діагоналей квадрата, гіпотенуза\nolinebreak[3] --- стороною квадрата. Отже, сам <<переломний момент>> має місце при ${R^2{+}R^2=a^2}$, або ${a=R\cdot\sqrt{2}}$, а\nolinebreak[3] ситуація \textnumero$\,$2\nolinebreak[3] --- при\nolinebreak[2] ${a\<R\cdot\sqrt{2}}$.
+
+{
+
+\def\tabbb{\hspace*{1em}}
+
+\myflfigaw{\ifAfour\begin{minipage}{13.5em}\else\begin{minipage}{12.5em}\fi\begin{small}\renewcommand{\baselinestretch}{0.875}\begin{alltt}read(r, a);\\
+if a >= r*2 then\\
+\tabbb{}writeln(1)\\
+else if a <= r*sqrt(2) then\\
+\tabbb{}writeln(2)\\
+else\\
+\tabbb{}writeln(3)\end{alltt}\end{small}\end{minipage}}
+% % % % % % % \myflfigaw{\begin{minipage}{10em}\begin{small}\renewcommand{\baselinestretch}{0.875}\begin{alltt}read(r, a);\\
+% % % % % % % if a >= r*2 then\\
+% % % % % % % \tabbb{}writeln(1)\\
+% % % % % % % else\\
+% % % % % % % \tabbb{}if a<=r*sqrt(2) then\\
+% % % % % % % \tabbb\tabbb{}writeln(2)\\
+% % % % % % % \tabbb{}else\\
+% % % % % % % \tabbb\tabbb{}writeln(3)\end{alltt}\end{small}\end{minipage}}
+Що може бути перетворено у, наприклад, фрагмент коду, наведений праворуч. 
+%
+Звісно, можуть бути й інші правильні перевірки. 
+%
+Можна замінити \verb"a"\nolinebreak[2]\verb"<="\nolinebreak[2]\verb"r*sqrt(2)" на \verb"a*a"\nolinebreak[2]\verb"<="\nolinebreak[2]\verb"r*r*2", але тоді стає важливим не~допустити переповнень (які можуть виникнути, а~можуть і не~виникнути, для типу \texttt{integer} при перевірці під\nolinebreak[2] \texttt{fpc}; див.\nolinebreak[2] також стор.~\pageref{text:overflow-example} та~\pageref{text:notes-about-delphi-mode}). 
+Писати замість виразу \verb"sqrt(2)" значення, як-то \verb"1.41421356"\nolinebreak[3] --- не~найкраща ідея, бо написати багато правильних знаків важче, ніж \verb"sqrt(2)", а~пишучи мало знаків (наприклад, \verb"1.414") можна отримати неправильну відповідь с\'{а}ме через цю неточність.
+
+}
+

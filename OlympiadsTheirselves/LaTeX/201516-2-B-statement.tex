@@ -1,0 +1,24 @@
+\begin{problemAllDefault}{Гра}
+
+\def\gameMainText{В дитячій грі по колу розташовані к\'{у}льки, кожна з\nolinebreak[3] них  має номер від 1 до~$N$ ($1{\<}N{\<}100$). По\nolinebreak[3] черзі з кола забирають кожну $K$-ту к\'{у}льку. Це\nolinebreak[3] відбувається до тих пір, поки в колі не залишиться остання к\'{у}лька. Напишіть програму \texttt{game}, яка б визначала номер останньої к\'{у}льки, що залишилась. При вхідних даних 7~3 кульки забираються у послідовності \textnumero$\,$3, \textnumero$\,$6, \textnumero$\,$2, \textnumero$\,$7,\nolinebreak[2] \textnumero$\,$5,\nolinebreak[3] \textnumero$\,$1.}
+
+\mytextandpicture{\gameMainText}%
+{\ifAfour
+{\begin{minipage}{42mm}\vbox to 2cm{\vss\includegraphics[width=42mm]{josephus.pdf}}\end{minipage}}
+\else
+{\includegraphics[width=5cm]{josephus.pdf}}
+\fi}
+
+\InputFile
+$N$, $K$.
+
+\OutputFile
+Номер кульки, що залишилась.
+
+\Example
+\begin{exampleSimple}{3em}{3em}%
+\exmp{7 3}{4}%
+\end{exampleSimple}
+
+\end{problemAllDefault}
+

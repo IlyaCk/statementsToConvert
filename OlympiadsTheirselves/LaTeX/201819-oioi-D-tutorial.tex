@@ -1,0 +1,89 @@
+{
+\def\A{\forall}
+\def\E{\exists}
+
+\def\tabbb{\hspace*{1em}}
+
+\myflfigaw{\ifAfour\begin{minipage}{12.5em}\else\begin{minipage}{11.5em}\fi\begin{small}\renewcommand{\baselinestretch}{0.875}\begin{alltt}if command = 'EiAj' then begin\\
+\tabbb{}res\_all := 0;\\
+\tabbb{}for i:=1 to N do begin\\
+\tabbb\tabbb{}res\_inner := 1;\\
+\tabbb\tabbb{}for j:=1 to M do\\
+\tabbb\tabbb\tabbb{}if A[i,j] = 0 then\\
+\tabbb\tabbb\tabbb\tabbb{}res\_inner := 0;\\
+\tabbb\tabbb{}if res\_inner = 1 then\\
+\tabbb\tabbb\tabbb{}res\_all := 1;\\
+\tabbb{}end\\
+end\end{alltt}\end{small}\end{minipage}}
+
+\Tutorial
+% Тут цілком годиться акуратна буквальна реалізація кожної окремо 
+Один з підходів\nolinebreak[3] --- акуратно буквально реалізувати кожну окремо 
+з описаних в умові задачі дій. Так розв'язувати \emph{можна}, приклади с\'{а}ме таких розв'язків\nolinebreak[3] ---
+\IdeOne{7Vnypm}\nolinebreak[2] (Pascal),
+\IdeOne{zl3Mo1}\nolinebreak[2] (Python3).
+
+Праворуч наведено одну з шести гілок такого розв'язку.
+Внутрішній цикл перевіряє, чи\nolinebreak[3] складається поточний рядок з сам\'{и}х лише одиниць, тому зручно ініціалізувати \verb"res_inner" одиницею і при знаходженні хоча~б одного нуля в цьому рядку скинути \verb"res_inner" в\nolinebreak[2] нуль.
+Зовнішній цикл перевіряє, чи\nolinebreak[3] є хоча\nolinebreak[3] б один рядок, для якого \verb"res_inner" виходить одиницею, тому зручно ініціалізувати \verb"res_all" нулем і при знаходженні такого рядка скинути \verb"res_all" в\nolinebreak[2] одиницю.
+
+Але така буквальна реалізація % все-таки 
+виходить громіздкою і \mbox{дещо} схильною до технічних помилок; див.\nolinebreak[3] також міркування на цю тему в\nolinebreak[2] розборі задачі <<Логічний куб>>\nolinebreak[2] (стор.~\pageref{text:about-complicated-code-with-many-ifs}) та міркування в літературі та Інтернеті щодо т.~зв.\nolinebreak[2] code reusing. Тому наведемо ще\nolinebreak[3] один спосіб, який далеко\nolinebreak[2] не\nolinebreak[3] в\nolinebreak[3] усіх смислах простіший, зате і\nolinebreak[3] потреб\'{у}є менше коду, і\nolinebreak[3] робить різні <<дії>> більш взаємопов'язаними.
+
+\begin{enumerate}
+\item
+Позбудемося того, що в частині <<дій>> треба аналізувати рядки, а\nolinebreak[3] в\nolinebreak[3] частині стовпчики. Для цього, якщо <<дія>> містить спочатку~``\texttt{j}'', потім~``\texttt{i}'', транспонуємо матрицю 
+% (повернемо симетрично 
+(віддзеркалимо відносно
+діагоналі, що виходить з верхнього лівого кута, так, щоб рядки стали стовпчиками, а\nolinebreak[3] стовпчики рядками); якщо\nolinebreak[3] ж <<дія>> містить спочатку~``\texttt{i}'', потім~``\texttt{j}'', нічого не\nolinebreak[3] робимо. Все\nolinebreak[2] це\nolinebreak[2] можна робити лише для \texttt{EjAi} та \texttt{AjEi} (де\nolinebreak[3] це\nolinebreak[3] важливо), а\nolinebreak[3] можна завжди, тобто також і для \texttt{AjAi} та \texttt{EjEi} (де\nolinebreak[3] це\nolinebreak[1] ні\nolinebreak[2] на\nolinebreak[2] шо не\nolinebreak[2] впливає); і\nolinebreak[3] так, і\nolinebreak[3] так правильно.
+\item
+Співставимо кожному окремо взятому рядку одну цифру 0 або~1:
+\begin{itemize}
+\item
+Якщо передостанній символ <<дії>>~``\texttt{A}'', то одиниця вийде тільки якщо рядок складається з самих лише одиниць, в усіх інших випадках вийде нуль;
+\item
+Якщо передостанній символ <<дії>>~``\texttt{E}'', то одиниця вийде, якщо рядок містить хоча~б одну одиницю, й тільки якщо нема жодної, то вийде нуль.
+\end{itemize}
+Так на основі двовимірного масиву будується одновимірний, кожен елемент якого є результатом застосування <<частини дії>> до відповідного рядка.
+\item
+До одновимірного масиву, утвореного внаслідок виконання попереднього пункту, застосуємо знов таке саме перетворення (настільки таке\nolinebreak[3] саме, що можна навіть викликати ту\nolinebreak[3] саму підпрограму з іншими аргументами). Тільки тепер дивимося не\nolinebreak[2] на\nolinebreak[2] передостанню в\nolinebreak[2] <<дії>> букву ``\texttt{A}'' чи~``\texttt{E}'', а\nolinebreak[3] на\nolinebreak[3] першу. Отриманий нолик чи одиничка і є остат\'{о}чною відповіддю.
+\end{enumerate}
+
+Приклад реалізації такого підходу\nolinebreak[3] --- \IdeOne{0TBJHA}.
+
+Чому все це правда? І~чому задача так називається?
+С\'{а}ме за правилами, описаними в~умові задачі, можна знаходити значення квантифікації 
+(застосування кванторів, тобто значків 
+``$\A$''\nolinebreak[3] (<<для\nolinebreak[3] всіх>>)
+та 
+``$\E$''\nolinebreak[3] (<<існує хоча~б один>>)) предиката, залежного від двох змінних: 
+\texttt{AiAj} та\nolinebreak[3] \texttt{AjAi} описують (однаковий) смисл 
+$\A{}i\A{}jP(i,j)$ та\nolinebreak[2] $\A{}j\A{}iP(i,j)$;
+%
+\hspace{0.25em plus 0.25em}
+%
+\texttt{EiEj} та\nolinebreak[3] \texttt{EjEi}\nolinebreak[3] --- (однаковий) смисл
+$\E{}i\E{}jP(i,j)$ та\nolinebreak[2] $\E{}j\E{}iP(i,j)$;
+%
+\hspace{0.25em plus 0.25em}
+%
+\texttt{EiAj}\nolinebreak[3] --- смисл $\E{}i\A{}jP(i,j)$;
+%
+\hspace{0.25em plus 0.25em}
+%
+\texttt{EjAi}\nolinebreak[3] --- смисл $\E{}j\A{}iP(i,j)$;
+%
+\hspace{0.25em plus 0.25em}
+%
+\texttt{AiEj}\nolinebreak[3] --- смисл $\A{}i\E{}jP(i,j)$;
+%                                      
+\hspace{0.25em plus 0.25em}                
+%                                      
+\texttt{AjEi}\nolinebreak[3] --- смисл $\A{}j\E{}iP(i,j)$. 
+%
+А~щойно описані трьома пунктами дії\nolinebreak[3] --- інший спосіб знаходити ті\nolinebreak[3] с\'{а}мі квантифікації. Й\nolinebreak[3] це\nolinebreak[2] відомо тим, хто ретельно вивчив математичну логіку в обсязі першого курсу університету.
+Само собою, про це в\nolinebreak[3] принципі можна (але\nolinebreak[3] важче) і здогадатися, не~знаючи наперед.
+
+Як уже відзначалося, задачу можна розв'язати й без\nolinebreak[2] цих\nolinebreak[2] знань математичної логіки\nolinebreak[3] --- вони дозволяють написати написати менш громіздкий варіант коду, але\nolinebreak[3] не\nolinebreak[3] необхідні. Програмістам часом доводиться реалізовувати не~дуже зрозумілі правила, сформульовані спеціалістами з інших галузей, так\nolinebreak[2] що задача може розглядатись і як вправа на с\'{а}ме цю сторону програмістської діяльності.
+
+}

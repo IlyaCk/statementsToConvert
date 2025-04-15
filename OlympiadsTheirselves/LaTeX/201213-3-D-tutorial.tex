@@ -1,0 +1,117 @@
+\Tutorial	Перш за все, покажемо неправильність <<природного>> (для тих, хто погано знає задачі такого роду) міркування \textsl{<<Каву слід застосовувати до $K$ найдовших завдань>>}. Візьмемо останній приклад з умови, але замінивши $K$ на~1. Без застосування кави розподіл за днями виходить такий: $(200)\dibbb{{+}}(281)\dibbb{{+}}{(240\,{+}\,240)}\dibbb{{+}}(480)$, тобто 4\nolinebreak[3] дні, бо можливо об'єднати два завдання по\nolinebreak[2] 240, а\nolinebreak[2] решта завдань потреб\'{у}ють кожне окремого дня. Найдовше завдання має тривалість 480, але від того, що воно скоротиться до ${480\,{\times}\,0{,}8}\dib{{+}}5\dibbb{{=}}389$, сумарна кількість днів не\nolinebreak[3] зменшиться, бо $(200)\dibbb{{+}}(281)\dibbb{{+}}{(240\,{+}\,240)}\dibbb{{+}}(389)$ все\nolinebreak[3] одно дає 4\nolinebreak[3] дні. А~якщо застосувати цю каву до будь-якого з перших двох завдань (${200\,{\times}\,0{,}8}\dib{{+}}5\dibbb{{=}}165$ чи ${281\,{\times}\,0{,}8}\dib{{+}}5\dibbb{{=}}229{,}8$), з'явиться можливість об'єднати ці завдання в один день, як ${(165\,{+}\,281)}\dibbb{{+}}{(240\,{+}\,240)}\dibbb{{+}}(480)$ чи ${(200\,{+}\,229{,}8)}\dibbb{{+}}{(240\,{+}\,240)}\dibbb{{+}}(480)$.
+
+% % % Менш очевидний приклад: розглянемо при однакових
+% % % ${N\,{=}\,7}$,\hspace{0.125em plus 0.125em} 
+% % % ${K\,{=}\,2}$,\hspace{0.125em plus 0.125em} 
+% % % ${L\,{=}\,5}$
+% % % дві послідовності тривалостей завдань: одна\nolinebreak[3] ---
+% % % 290,\nolinebreak[3] 290, 480, 300, 235, 300,\nolinebreak[3] 235;
+% % % інша\nolinebreak[3] ---
+% % % 290,\nolinebreak[3] 290, 480, 265, 265, 265,\nolinebreak[4] 265.
+% % % Без\nolinebreak[2] застосувань кави 
+% % % і\nolinebreak[2] там, 
+% % % і\nolinebreak[2] там кожне завдання потреб\'{у}є окремого дня; 
+% % % застосувати ж ${K\,{=}\,2}$ чашок кави у цих випадках варто по-різному:
+% % % в\nolinebreak[3] \mbox{1-му} випадку варто двічі зробити 
+% % % ${300\,{\times}\,0{,}8}\dib{{+}}5\dibbb{{=}}245$, і це дасть можливість розбиття 
+
+\MyParagraph{А як правильно?}
+Правильним є % трохи несподіваний 
+розв'язок, водночас і багато в чому очевидний, і досить нестандартний в одному моменті. Розв'яжемо задачу динамічним програмуванням (воно~ж динпрог, воно~ж~ДП), поставивши серію підзадач \textsl{<<За~який мінімальний час $T(i,j)$ можливо виконати завдання з \mbox{1-го} по \mbox{$i$-е}, використавши не~більш, ніж $j$ чашок кави?>>}, причому так, щоб ця сумарна для завдань з\nolinebreak[3] \mbox{1-го} по\nolinebreak[3] \mbox{$i$-е} \textsl{тривалість вимірювалася парою <<кількість використаних днів; кількість хвилин, використаних останнього\nolinebreak[2] дня>>}. 
+%
+Нехай ці кількості зібрані у структуру \verb"tot_time", наведену праворуч.
+
+\def\tabbb{\hspace*{1em}}
+
+\myflfigaw{\ifAfour\begin{minipage}{10em}\else\begin{minipage}{9em}\fi\vbox to 12pt{\vss\ifAfour\begin{minipage}{10em}\else\begin{minipage}{9em}\fi\begin{small}\renewcommand{\baselinestretch}{0.875}\begin{alltt}struct tot\_time \{\\
+\tabbb{}int days, minutes;\\
+\};\end{alltt}\end{small}\end{minipage}\vss\vss\vss}\end{minipage}}
+
+Динамічне програмування передбачає, що треба переходити від під\-задачі до під\-задачі (отже, додавати одне завдання до сукупності завдань) та вибирати мінімальне значення з кількох варіантів (отже, вибирати, що менше). Тому треба задати правило, як додавати, і правило, як порівнювати. 
+
+\myflfigaw{\ifAfour\begin{minipage}{16.5em}\else\begin{minipage}{15.5em}\fi\vbox to 132pt{\vss\ifAfour\begin{minipage}{16.5em}\else\begin{minipage}{15.5em}\fi\begin{small}\renewcommand{\baselinestretch}{0.875}\begin{alltt}tot\_time operator +\\
+\tabbb\tabbb\tabbb\tabbb{}(const tot\_time \&tt\_old, 
+\tabbb\tabbb\tabbb\tabbb{}int minutes\_to\_add) \{\\
+\tabbb{}tot\_time res;\\
+\tabbb{}int sum\_minutes = tt\_old.minutes\\
+\tabbb\tabbb\tabbb\tabbb{}+ minutes\_to\_add;\\
+\tabbb{}if(sum\_minutes <= 8*60) \{\\
+\tabbb\tabbb{}res.days = tt\_old.days;\\
+\tabbb\tabbb{}res.minutes = sum\_minutes;\\
+\tabbb{}\} else \{\\
+\tabbb\tabbb{}res.days = tt\_old.days + 1;\\
+\tabbb\tabbb{}res.minutes = minutes\_to\_add;\\
+\tabbb{}\}\\
+\tabbb{}return res;\\
+\};\end{alltt}\end{small}\end{minipage}\vss\ifAfour\vss\vss\fi}\end{minipage}}
+
+Якщо говорити у термінах C++, то це \texttt{operator~+} та \texttt{operator~<}, наведені у фрагментах коду праворуч. Звісно, іншими мовами програмування це теж можна реалізувати, але трохи менш зручно.
+
+Наприклад: якщо до пари (1;~200) додати 100~хв, має вийти пара (1;~300), бо ці 100~хв можна додати до того самого дня; а\nolinebreak[2] якщо такі\nolinebreak[2] самі 100~хв додавати до пари (1;~400), має вийти пара (2;~100), бо раз помістити в той\nolinebreak[2] самий день не~можна (${400\,{+}\,100}\dibbb{{=}}500\dibbb{{>}}480\dibbb{{=}}{8\,{\times}\,60}$), то треба починати новий день, і з того дня буде зайнято % рівно 
+стільки часу, скільки триває нове завдання, яке не~помістилося в попередній. 
+
+\myflfigaw{\ifAfour\begin{minipage}{17em}\else\begin{minipage}{16em}\fi\vbox to 96pt{\vss\ifAfour\begin{minipage}{17em}\else\begin{minipage}{16em}\fi\begin{small}\renewcommand{\baselinestretch}{0.875}\begin{alltt}bool operator <\\
+\tabbb\tabbb\tabbb\tabbb{}(const tot\_time \&t1,\\
+\tabbb\tabbb\tabbb\tabbb{}~const tot\_time \&t2) \{\\
+\tabbb{}if(t1.days != t2.days)\\
+\tabbb\tabbb{}return t1.days < t2.days;\\
+\tabbb{}else   // t1.days == t2.days\\
+\tabbb\tabbb{}return t1.minutes < t2.minutes;\\
+\}\end{alltt}\end{small}\end{minipage}\vss\vss\ifAfour\vss\vss\fi}\end{minipage}}
+
+З~порівнянням ще простіше: при різних кількостях днів, треба враховувати лише ці різні кількості днів, а\nolinebreak[2] при однакових\nolinebreak[3] ---  врахувати кількість хвилин.
+
+Так от, якщо операціям ``$+$'' та ``$<$'' надати с\'{а}ме такий смисл, то можна сформулювати й використати нижче наведені тривіальні під\-задачі та рівняння~ДП.
+
+\vspace{-0.75\baselineskip}
+
+\begin{equation}
+T(0,j) = (0;\,480)\quad\textnormal{для всіх $0\<j\<K$}
+\end{equation}
+
+\vspace{-0.25\baselineskip}
+
+\noindent%
+(щоб виконати 0~завдань, досить 0~днів; 480 хвилин (а~не~0), щоб не~можна було додати нові завдання в~той самий неіснуючий \mbox{0-й} день; для всіх~$j$, а~не~лише ${j\,{=}\,0}$, бо у серії підзадач вказано <<не~більш, ніж $j$ чашок кави>>).
+
+\vspace{-0.75\baselineskip}
+
+\begin{equation}
+T(i,0) = T(i-1, \,0) + a_i\quad \textnormal{для всіх $1\<i\<N$}
+\end{equation}
+
+\vspace{-0.25\baselineskip}
+
+\noindent%
+(де~$a_i$~--- тривалість \mbox{$i$-го} завдання згідно вхідних даних; 
+``$+$''\nolinebreak[3] має смисл, заданий вище у \texttt{operator~+}; це\nolinebreak[3] правильно, бо ${j\,{=}\,0}$ означає <<взагалі не~вживати кави>>, тож нема іншого вибору, крім як додати це завдання зі стандартною тривалістю).
+
+\vspace{-0.75\baselineskip}
+
+\begin{equation}
+T(i,j) = \min\left\{
+\begin{array}{l}
+T(i-1, \,j) + a_i,\\
+T(i-1, \,j-1) + 0{,}8\cdot a_i + L
+\end{array}
+\right\}\quad \textnormal{\begin{footnotesize}
+$\begin{array}{l}
+\textnormal{для всіх} \\
+1\<i\<N, \\
+1\<j\<K
+\end{array}$\end{footnotesize}}
+\label{eq:201213-3-D-coffee-main-DP-eq}
+\end{equation}
+
+\vspace{-0.25\baselineskip}
+
+\noindent%
+(смисли $a_i$ та ``$+$'' такі самі, $\min$ вибирається згідно вищезгаданого \texttt{operator~<}; тут розглядаються варіанти <<не~використовувати каву>> (верхній аргумент $\min$) та <<використати>> (нижній) і вибирається кращий з них; якщо каву не~використовувати, то сумарно на всі попередні ${i\,{-}\,1}$ завдань доступно так само $j$ чашок, а\nolinebreak[2] якщо використовувати, то ${j\,{-}\,1}$, бо без цієї одної, що зараз).
+
+% % % \continueHere
+% % % \continueHere
+% % % \continueHere
+% % % \continueHere
+
+
+Якщо згадати, що 80\% від цілого числа не~завжди є цілим числом, виявляється, що поєднати рівно таке рівняння~(\ref{eq:201213-3-D-coffee-main-DP-eq}) з рівно такою структурою\nolinebreak[3] \texttt{tot\_time} неможливо. Теоретично можна подати кількість хвилин як \texttt{double}; але, враховуючи стор.\nolinebreak[3] \mbox{\pageref{sec:floating-point}--\pageref{text:floating-point-end}} та факт, що сама константа \verb"0.8" вже не~є скінч\'{е}нним двійковим дробом, це погана ідея. Краще, наприклад, замінити поле \texttt{minutes} на поле \texttt{seconds}, правильно змінивши всі константи (тоді, якщо не~використовувати каву, то тривалість завдання у хвилинах перетворюється у секунди як \texttt{60*a[i]}, а якщо використовувати, то як \texttt{\mbox{48*a[i]}}\nolinebreak[3]\hspace{0.125em plus 0.125em}\texttt{+}\nolinebreak[3]\hspace{0.125em plus 0.125em}\texttt{\mbox{60*L}}), або ще якимсь чином лишитися у точній цілочисловій арифметиці.

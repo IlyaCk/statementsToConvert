@@ -1,0 +1,157 @@
+\Tutorial	{
+Цю задачу важко вирішити на повні бали шляхом аналізу випадків.
+Просто тому, що їх більше, ніж може здатися. Навіть якщо не~розглядати випадки рівності деяких із координат (як-то <<не~розглядати окремо ситуацію \verb"xmin1==xmax2", а об'єднати з ситуацією \verb"xmin1>xmax2", написавши \verb"xmin1>=xmax2">>), все одно лишаються такі потенційно різні випадки:
+\ifAfour
+\par\vspace{-0.5\baselineskip}
+\fi
+\def\LLL#1#2{\rhatch\rect{#1,#2}
+\rect{#1,#2}}%
+\def\RRR#1#2{\lhatch\rect{#1,#2}
+\rect{#1,#2}}%
+\def\wholeCase#1#2#3#4#5#6#7#8{%
+\begin{mfpic}[8.5]{-0.125}{3.125}{-0.125}{3.125}
+\rect{(-0.125,-0.125),(3.125,3.125)}
+\pen{2pt}
+\LLL{(#1,#5)}{(#2,#6)}
+\RRR{(#3,#7)}{(#4,#8)}
+\end{mfpic}}
+\begin{longtable}{@{}cccccccccccc@{}}%
+\wholeCase{0}{1}{2}{3}{0}{1}{2}{3}      &
+\wholeCase{0}{1}{2}{3}{0}{2}{1}{3}      &
+\wholeCase{0}{1}{2}{3}{0}{3}{1}{2}      &
+\wholeCase{0}{1}{2}{3}{1}{2}{0}{3}      &
+\wholeCase{0}{1}{2}{3}{1}{3}{0}{2}      &
+\wholeCase{0}{1}{2}{3}{2}{3}{0}{1}
+& %\\
+\wholeCase{0}{2}{1}{3}{0}{1}{2}{3}      &
+\wholeCase{0}{2}{1}{3}{0}{2}{1}{3}      &
+\wholeCase{0}{2}{1}{3}{0}{3}{1}{2}      &
+\wholeCase{0}{2}{1}{3}{1}{2}{0}{3}      &
+\wholeCase{0}{2}{1}{3}{1}{3}{0}{2}      &
+\wholeCase{0}{2}{1}{3}{2}{3}{0}{1}
+\\
+\wholeCase{0}{3}{1}{2}{0}{1}{2}{3}      &
+\wholeCase{0}{3}{1}{2}{0}{2}{1}{3}      &
+\wholeCase{0}{3}{1}{2}{0}{3}{1}{2}      &
+\wholeCase{0}{3}{1}{2}{1}{2}{0}{3}      &
+\wholeCase{0}{3}{1}{2}{1}{3}{0}{2}      &
+\wholeCase{0}{3}{1}{2}{2}{3}{0}{1}
+& %\\
+\wholeCase{1}{2}{0}{3}{0}{1}{2}{3}      &
+\wholeCase{1}{2}{0}{3}{0}{2}{1}{3}      &
+\wholeCase{1}{2}{0}{3}{0}{3}{1}{2}      &
+\wholeCase{1}{2}{0}{3}{1}{2}{0}{3}      &
+\wholeCase{1}{2}{0}{3}{1}{3}{0}{2}      &
+\wholeCase{1}{2}{0}{3}{2}{3}{0}{1}
+\\
+\wholeCase{1}{3}{0}{2}{0}{1}{2}{3}      &
+\wholeCase{1}{3}{0}{2}{0}{2}{1}{3}      &
+\wholeCase{1}{3}{0}{2}{0}{3}{1}{2}      &
+\wholeCase{1}{3}{0}{2}{1}{2}{0}{3}      &
+\wholeCase{1}{3}{0}{2}{1}{3}{0}{2}      &
+\wholeCase{1}{3}{0}{2}{2}{3}{0}{1}
+& %\\
+\wholeCase{2}{3}{0}{1}{0}{1}{2}{3}      &
+\wholeCase{2}{3}{0}{1}{0}{2}{1}{3}      &
+\wholeCase{2}{3}{0}{1}{0}{3}{1}{2}      &
+\wholeCase{2}{3}{0}{1}{1}{2}{0}{3}      &
+\wholeCase{2}{3}{0}{1}{1}{3}{0}{2}      &
+\wholeCase{2}{3}{0}{1}{2}{3}{0}{1}
+\end{longtable}
+\ifAfour
+\vspace{-1.25\baselineskip}
+\else
+\vspace{-0.5\baselineskip}
+\fi
+
+Ситуації, коли прямокутники обміняні місцями, наведено як різні, бо якщо виводити для кожного випадку свою формулу залежності результату від вхідних даних, вони можуть бути різними.
+Звісно, деякі з цих випадків все одно можна об'єднати.
+Але не~так просто зробити це правильно і ніде не~помил\'{и}тися.
+Тому пропонується розв'язати задачу інакше.
+
+}
+
+\MyParagraph{1-й спосіб (придатний для довільних координат).}
+Площа об’єднання дорівнює сумі площ окремо взятих 
+прямокутників мінус площа перетину (спільної частини); якщо спільної частини нема, площею перетину вважається~0.
+% (До речі, це 
+(Це\nolinebreak[3] міркування є част\-ко\-вим випадком \href{https://uk.wikipedia.org/wiki/%D0%A4%D0%BE%D1%80%D0%BC%D1%83%D0%BB%D0%B0_%D0%B2%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D1%8C-%D0%B2%D0%B8%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D1%8C}{\emph{принципу включень та виключень}}).
+\ifAfour\else\par\fi
+Щоб знайти перетин, можна (окремо для~$x$, окремо для~$y$) узяти максимін (максимум із мінімумів) і мінімакс (мінімум із максимумів). Наприклад:
+
+\noindent\begin{tabular}{@{}c|c@{}}
+\raisebox{-36pt}{\begin{mfpic}[16]{-2.3}{4.5}{-0.3}{4.9}
+\axes
+\dotted\lines{(-1,-0.1),(-1,4.1)}
+\dotted\lines{(-2,-0.1),(-2,4.1)}
+\dotted\lines{( 1,-0.1),( 1,4.1)}
+\dotted\lines{( 2,-0.1),( 2,4.1)}
+\dotted\lines{( 3,-0.1),( 3,4.1)}
+\dotted\lines{( 4,-0.1),( 4,4.1)}
+\dotted\lines{(-2.1, 1),(4.1, 1)}
+\dotted\lines{(-2.1, 2),(4.1, 2)}
+\dotted\lines{(-2.1, 3),(4.1, 3)}
+\dotted\lines{(-2.1, 4),(4.1, 4)}
+\rhatch\polygon{(0,0),(4,0),(4,3),(1,3),(1,4),(-2,4),(-2,2),(0,2)}
+\arrow[v5]\lines{(-2.25,1),(0,2)}
+\arrow[v5]\lines{(-2.25,2.5),(0,3)}
+\arrow[v5]\lines{(-1.5,5),(0,3)}
+\arrow[v5]\lines{(2,5.5),(1,3)}
+\tlabel[tr](-2.25,1){\font\mysizeNoIt = cmr10 scaled 1440\font\mysizeIt = cmmi10 scaled 1440\font\mysubsizeNoIt = cmr10\mysizeNoIt max(\mysizeIt y\lower.5ex\hbox{\mysubsizeNoIt min1}\mysizeNoIt,   \mysizeIt y\lower.5ex\hbox{\mysubsizeNoIt min2}\mysizeNoIt)}%%%максимiн iгрекiв
+\tlabel[cr](-2.25,2.5){\font\mysizeNoIt = cmr10 scaled 1440\font\mysizeIt = cmmi10 scaled 1440%
+\font\mysubsizeNoIt = cmr10\mysizeNoIt min(\mysizeIt y\lower.5ex\hbox{\mysubsizeNoIt max1}%
+\mysizeNoIt,   \mysizeIt y\lower.5ex\hbox{\mysubsizeNoIt max2}\mysizeNoIt)}%%%мiнiмакс iгрекiв
+\tlabel[br](-1.5,5){\font\mysizeNoIt = cmr10 scaled 1440\font\mysizeIt = cmmi10 scaled 1440\font\mysubsizeNoIt = cmr10\mysizeNoIt max(\mysizeIt x\lower.5ex\hbox{\mysubsizeNoIt min1}\mysizeNoIt,   \mysizeIt x\lower.5ex\hbox{\mysubsizeNoIt min2}\mysizeNoIt)}%%%максимiн iксiв
+\tlabel[bc](2.25,5.5){\font\mysizeNoIt = cmr10 scaled 1440\font\mysizeIt = cmmi10 scaled 1440%
+\font\mysubsizeNoIt = cmr10\mysizeNoIt min(\mysizeIt x\lower.5ex\hbox{\mysubsizeNoIt max1}%
+\mysizeNoIt,   \mysizeIt x\lower.5ex\hbox{\mysubsizeNoIt max2}\mysizeNoIt)}%%%мiнiмакс iксiв
+% % % \tlabel[tr](-2.25,1){$\max(y_{\min1}, y_{\min2})$} %%%максимiн iгрекiв\\
+% % % \tlabel[cr](-2.25,3.5){$\min(y_{\max1}, y_{\max2})$} %%%мiнiмакс iгрекiв\\
+% % % \tlabel[br](-2,5){$\max(x_{\min1}, x_{\min2})$} %%%максимiн iксiв\\
+% % % \tlabel[bc](2.25,5.5){$\min(x_{\max1}, x_{\max2})$} %%%мiнiмакс iксiв\\
+\pen{2pt}
+\rect{(0,0),(4,3)}
+\rect{(-2,2),(1,4)}
+\end{mfpic}}
+&
+$
+% % % \begin{array}{@{}r@{\,=\,}c@{\,=\,}r@{,\,}l@{\,=\,}l}
+% % % \textnormal{максимін~}x & \max(x_{\min1}, x_{\min2}) & \max(0 & -2) & 0;\\
+% % % \textnormal{мінімакс~}x & \min(x_{\max1}, x_{\max2}) & \min(4 &  1) & 1;\\
+% % % \textnormal{максимін~}y & \max(y_{\min1}, y_{\min2}) & \max(0 &  2) & 2;\\
+% % % \textnormal{мінімакс~}y & \min(y_{\max1}, y_{\max2}) & \min(3 &  4) & 3.
+% % % \end{array}
+\begin{array}{r@{\,=\,}l@{,\,}l@{\,=\,}l}
+\textnormal{максимін~}x & \max(\underbrace{x_{\min1}}_{=0} & \underbrace{x_{\min2}}_{=-2}) & 0;\\
+\textnormal{мінімакс~}x & \min(\underbrace{x_{\max1}}_{=4} & \underbrace{x_{\max2}}_{=1})  & 1;\\
+\textnormal{максимін~}y & \max(\underbrace{y_{\min1}}_{=0} & \underbrace{y_{\min2}}_{=2})  & 2;\\
+\textnormal{мінімакс~}y & \min(\underbrace{y_{\max1}}_{=3} & \underbrace{y_{\max2}}_{=4})  & 3.
+\end{array}
+$
+\end{tabular}
+
+\underline{\emph{Якщо}} 
+% \ifAfour
+\emph{за \underline{кожною} з координат}
+% \else
+% \emph{в~обох випадках} ($x$~та~$y$) 
+% \fi
+максимін строго менший мінімакса, то площа перетину нену\-льо\-в\'{а} і її справді треба відняти. 
+
+Асимптотична оцінка:~$\Theta(1)$. Реалізація: \IdeOne{naDNCA}.
+
+
+% % % \MyParagraph{2-й спосіб (менш універсальний, але конкретно тут теж правильний).}
+\MyParagraph{2-й спосіб (менш універсальний, але с\'{а}ме тут теж правильний).}
+В~умові задано невеликі (як для комп’ютера) обмеження на значення координат. Це дає можливість перебрати % всі 
+<<клітинки>> і для кожної перевірити, чи~належить вона \mbox{1-му} прямокутнику та чи належить \mbox{2-му}. 
+% Важливо, що завдяки 
+Завдяки 
+використанню операції \texttt{or} (\mbox{С-подіб}\-ними мовами~\verb"||") можна не~розбиратися з~випадками, і 
+% абсолютно\nolinebreak[2] не\nolinebreak[3] важливо, 
+не~важливо, 
+чи~мають прямокутники непорожній перетин, чи~не~мають.
+Ідея частково повторює згадану на\nolinebreak[3] стор.~\pageref{text:drawing-by-coords-in-graphics-password-problem} (задача <<Графічний пароль>>), але тут не\nolinebreak[3] треба нічого (крім вхідних даних) запам'ятовувати.
+
+Реалізація цього способу: \IdeOne{BHOtpE}.
+Код навіть коротший і простіший, ніж першим способом. Але: якби дозволялися дробові значення координат, цей спосіб був~би принципово неможливим; при цілих координатах, його асимптотична оцінка ${O(X\,{\cdot}\,Y)}$ (де\nolinebreak[2] $X$ та\nolinebreak[3] $Y$\nolinebreak[3] --- розміри діапазонів можливих значень координат), що немало.

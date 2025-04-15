@@ -1,0 +1,69 @@
+\begin{problemAllDefault}{Квадрат і круг}
+
+Є круг радіуса~$R$ та квадрат зі стороною~$a$. Напишіть програму, яка визначатиме, яка з трьох ситуацій має місце:
+\begin{enumerate}
+\item
+круг можна покласти на квадрат, і круг не звисатиме за межі квадрату;
+\item
+квадрат можна покласти на круг, і квадрат не звисатиме за межі круга;
+\item
+як не клади, верхня фігура звисатиме за межі нижньої.
+\end{enumerate}
+
+\InputFile
+Перший рядок містить єдине число\nolinebreak[3] $R$\nolinebreak[3] --- радіус круга. Др\'{у}гий рядок містить єдине число\nolinebreak[3] $a$\nolinebreak[3] --- сторону квадрата. Кожен з розмірів є цілим числом у межах від\nolinebreak[3] 1\nolinebreak[2] до~12345. 
+
+\OutputFile
+Виведіть єдине число 1, 2 або 3 на позначення того, яка з ситуацій (згідно з вищезгаданим переліком) має місце.
+
+\Examples
+
+\begin{tabular}{@{}p{\ifAfour 12em\else 11em\fi}c}
+\begin{exampleSimple}{5em}{5em}
+\exmp{10
+20}{1}%
+\exmp{10
+11}{2}%
+\exmp{10
+17}{3}%
+\end{exampleSimple}
+&
+\begin{tabular}{|c|c|c|}
+\hline
+$R{=}10$, $a{=}20$ &
+$R{=}10$, $a{=}11$ &
+$R{=}10$, $a{=}17$ 
+\\
+ситуація \textnumero$\,$1 &
+ситуація \textnumero$\,$2 &
+ситуація \textnumero$\,$3 
+\\
+\begin{mfpic}[3]{-10}{10}{-10}{10}
+\rhatch\rect{(-10,-10),(10,10)}
+\rect{(-10,-10),(10,10)}
+\gclear\circle{(0,0),10}
+\lhatch\circle{(0,0),10}
+\circle{(0,0),10}
+\end{mfpic}
+&
+\begin{mfpic}[3]{-10}{10}{-10}{10}
+\lhatch\circle{(0,0),10}
+\circle{(0,0),10}
+\gclear\rect{(-5.5,-5.5),(5.5,5.5)}
+\rhatch\rect{(-5.5,-5.5),(5.5,5.5)}
+\rect{(-5.5,-5.5),(5.5,5.5)}
+\end{mfpic}
+&
+\begin{mfpic}[3]{-10}{10}{-10}{10}
+\rhatch\rect{(-8.5,-8.5),(8.5,8.5)}
+\rect{(-8.5,-8.5),(8.5,8.5)}
+\gclear\circle{(0,0),10}
+\lhatch\circle{(0,0),10}
+\circle{(0,0),10}
+\end{mfpic}
+\\\hline
+\end{tabular}
+\end{tabular}
+
+\end{problemAllDefault}
+
