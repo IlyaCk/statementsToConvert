@@ -1,0 +1,193 @@
+\documentclass[11pt,a4paper]{extarticleMyMetod}
+
+\usepackage{cmap}
+% \usepackage[T2A]{fontenc}
+% \usepackage[utf8]{inputenc}
+
+\usepackage{fontspec}
+\setmainfont{Arial}[SlantedFont=Calibri-Light,BoldSlantedFont=Calibri-Bold]
+\setsansfont{Verdana}
+% \setmainfont{Verdana}
+% \setsansfont{Arial}
+\setmonofont{Courier New}
+
+\newif{\ifDoColor}
+\DoColortrue
+
+\newif{\ifDoMarkNonGameDev}
+\DoMarkNonGameDevtrue
+
+\usepackage[english,ukrainian]{babel}
+% \usepackage[metapost,truebbox,mplabels]{mfpic}
+\usepackage[metapost]{mfpic}
+\usepackage{enumitem}
+\usepackage{epigraph}
+\usepackage{floatflt}
+% \usepackage{multicol}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{amstext}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{verbatim}
+\usepackage{alltt}
+\usepackage{array}
+\usepackage{ccaption}
+\usepackage{setspace}
+\usepackage{titletoc}
+\usepackage{lastpage}
+\usepackage{refcount}
+\usepackage[breaklinks]{hyperref}
+% \usepackage{breakurl}
+\ifDoColor
+\hypersetup{
+	breaklinks=true,
+    colorlinks,
+    citecolor=green,
+    filecolor=green,
+    linkcolor=red,
+    urlcolor=blue
+}
+\fi
+
+\def\fpage{\pageref{CorrectFirstPageLabel}}  %%% required to avoid conflict between standard definitions of \Hy@setref@link and \lastpage
+
+% \twocolumn
+
+% \usepackage[landscape,russian]{olymppp}
+
+\usepackage[ukrainian]{olymppp}
+
+\usepackage{anysize}
+\usepackage{listcorr}
+
+\def\aftercaptionmark{.}
+\captiondelim{. }
+\def\<{\leqslant}
+\def\>{\geqslant}
+\def\*{\times}
+\def\dib#1{\,#1\discretionary{}{\mbox{$#1$}}{}\,}
+\def\dibbb#1{\)\nolinebreak\hspace{0.0625em plus 0.25em}\(\dib{#1}\)\nolinebreak\hspace{0.0625em plus 0.25em}\(}
+
+\newenvironment{multicols}[1]{}{} % FAKE
+\def\columnwidth{\textwidth}  % FAKE too
+
+\def\MyHorLine#1#2{$\frac{\textnormal{#1}}{\textnormal{#2}}$} 
+
+\def\+{\oplus}
+\def\N{\ifmmode{\mathbb{N}}\else{$\mathbb{N}$}\fi}
+\def\eqdef{\,\stackrel{\mathrm{def}}{=}\,}
+\def\eps{\varepsilon}
+\def\b{\mathbin{\backslash}}
+\def\U{\cup}
+\def\I{\cap}
+\def\sse{\subseteq}
+\def\u{\vee}
+\def\i{\wedge}
+\def\0{\varnothing}
+\def\endproof{\hfill$\blacksquare$\par}
+% \def\mex{\mathrm{mex}}
+\def\mex#1{\operatorname{mex}(\{#1\})}
+% \def\mex#1{\operatorname{\mathrm{mex}}(\{#1\})}
+\def\mexHuge#1{\operatorname{mex}\left(\left\{#1\right\}\right)}
+\def\mexEmptySet{\operatorname{mex}(\varnothing)}
+\newcounter{tempCounterForDMRefs}
+\def\IlyaCkDMpageRef#1{\setcounter{tempCounterForDMRefs}{#1}\stepcounter{tempCounterForDMRefs}\href{https://eprints.cdu.edu.ua/4177/1/paryblev2018 (1).pdf\#page=\arabic{tempCounterForDMRefs}}{#1}}
+\def\IlyaCkDMpageFullRef#1{[\ref{lit:Porublyov-DM},\nolinebreak[3] с.~\IlyaCkDMpageRef{#1}]}
+
+
+\marginsize{20mm}{20mm}{7mm}{20mm}
+
+% \setlength{\columnsep}{10pt}
+% \setlength{\columnseprule}{2pt}
+% \renewcommand{\columnseprulecolor}{\color[rgb]{0.75,0.875,0.875}}
+
+
+
+% % % \renewcommand{\baselinestretch}{1.28125}
+% % % % \renewcommand{\baselinestretch}{1.3125}
+
+\setlength{\parindent}{7.5mm}
+% % % \setlength{\parskip}{1pt plus 9pt minus 0.5 pt}
+\setlength{\parskip}{0.5pt plus 3pt minus 0.25 pt}
+
+
+\newif{\ifallIdeOneLinksCopiedHere}
+\allIdeOneLinksCopiedHerefalse
+
+\newif{\ifStatementOnly}
+\StatementOnlyfalse
+
+\newif{\ifglobalsf}
+\globalsftrue
+
+\ifglobalsf
+\def\mainFontFamily{sffamily}
+\else
+\def\mainFontFamily{rmfamily}
+\fi
+
+\PrintEjudgeConstraintsfalse
+
+
+\opengraphsfile{pics}
+
+\newenvironment{problemAllDefault}[1]{\vspace{10mm}\par\begin{problem}{#1}{Клавіатура (stdin)}{Екран (stdout)}{1 сек}{64 мегабайти}}{\end{problem}}
+
+\def\aaa#1{\begin{problemAllDefault}{#1}
+\input #1.tex
+\end{problemAllDefault}\vspace{1in}}
+
+\renewcommand{\thecontestname}{Алгоритми та структури даних}
+\renewcommand{\thecontestlocation}{ФОТІУС ЧНУімБХ}
+\renewcommand{\thecontestdate}{(2025 р.)}
+
+
+\begin{document}
+
+\tableofcontents
+
+\aaa{games001}
+\aaa{games002}
+\aaa{games003}
+\aaa{games004}
+\aaa{games005}
+\aaa{games006}
+\aaa{games007}
+\aaa{games008}
+\aaa{games009}
+\aaa{games010}
+\aaa{games011}
+\aaa{games012}
+\aaa{games013}
+\aaa{games014}
+\aaa{games015}
+\aaa{games016}
+\aaa{games017}
+\aaa{games018}
+\aaa{games019}
+\aaa{games020}
+\aaa{games021}
+\aaa{games022}
+\aaa{games023}
+\aaa{games024}
+\aaa{games025}
+\aaa{games026}
+\aaa{games027}
+\aaa{games028}
+\aaa{games051}
+\aaa{games052}
+\aaa{games053}
+\aaa{games061}
+\aaa{games071}
+\aaa{games072}
+\aaa{games073}
+\aaa{games074}
+\aaa{games075}
+
+
+
+\end{document}
